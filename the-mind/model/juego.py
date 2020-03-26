@@ -54,6 +54,13 @@ class Juego(object):
 		return self._mesa
 
 	def poner_carta(self, jugador: str, carta: int) -> None:
+		if jugador not in self._cartas_por_jugador:
+			raise JugadorInexistenteException()
+
+		if carta not in self._cartas_por_jugador[jugador]:
+			raise CartaInexistenteException()
+
+		self._cartas_por_jugador[jugador].remove(carta)
 		self._mesa = carta
 
 	def _assert_jugadores_unicos(self, jugadores: List[str]) -> None:
@@ -83,4 +90,12 @@ def cartas_repartidas(jugadores: List[str], nivel: int) -> Dict[str, List[int]]:
 
 
 class JugadorExistenteException(Exception):
+	pass
+
+
+class JugadorInexistenteException(Exception):
+	pass
+
+
+class CartaInexistenteException(Exception):
 	pass

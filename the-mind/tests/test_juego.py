@@ -4,7 +4,12 @@ import unittest
 
 from typing import List
 
-from model.juego import Juego, JugadorExistenteException
+from model.juego import (
+	Juego,
+	JugadorExistenteException,
+	JugadorInexistenteException,
+	CartaInexistenteException
+)
 
 
 def juego_default() -> Juego:
@@ -98,11 +103,26 @@ class JuegoTest(unittest.TestCase):
 
 
 	def test_jugador_pierde_la_carta_luego_de_jugar(self) -> None:
-		pass
+		juego = juego_default()
+		self.assertIn(1, juego.cartas_por_jugador()['Articuno'])
+		juego.poner_carta('Articuno', 1)
+		self.assertNotIn(1, juego.cartas_por_jugador()['Articuno'])
 
 
-	def test_jugador_no_puede_jugar_carta_inexistente(self) -> None:
-		pass
+	def test_jugador_inexistente_no_puede_poner_carta(self) -> None:
+		juego = juego_default()
+		self.assertRaises(
+			JugadorInexistenteException,
+			juego.poner_carta, 'Moltres', 3
+		)
+
+
+	def test_jugador_no_puede_poner_carta_inexistente(self) -> None:
+		juego = juego_default()
+		self.assertRaises(
+			CartaInexistenteException,
+			juego.poner_carta, 'Articuno', 200
+		)
 
 
 	def test_jugador_juega_mal_todos_descartan_las_menores(self) -> None:
