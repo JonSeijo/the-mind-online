@@ -8,7 +8,8 @@ from model.juego import (
 	Juego,
 	JugadorExistenteException,
 	JugadorInexistenteException,
-	CartaInexistenteException
+	CartaInexistenteException,
+	JuegoEnCursoException
 )
 
 
@@ -24,6 +25,15 @@ def juego_default() -> Juego:
 		}
 	)
 
+def juego_sin_cartas() -> Juego:
+	return Juego(
+		jugadores = ['Articuno', 'Zapdos'],
+		mesa = 0,
+		nivel = 1,
+		vidas = 3,
+		cartas_por_jugador = {}
+	)
+
 class JuegoTest(unittest.TestCase):
 
 	def test_juego_empieza_nivel_uno(self) -> None:
@@ -32,9 +42,7 @@ class JuegoTest(unittest.TestCase):
 
 
 	def test_juego_sube_nivel_correctamente(self) -> None:
-		juego = juego_default()
-		juego.subir_nivel()
-		juego.subir_nivel()
+		juego = Juego.iniciar_en_nivel(jugadores=['Articuno', 'Zapdos'], nivel=3)
 		self.assertEqual(3, juego.nivel())
 
 
@@ -61,18 +69,14 @@ class JuegoTest(unittest.TestCase):
 
 
 	def test_jugadores_tienen_cartas_igual_nivel(self) -> None:
-		juego = Juego.iniciar(jugadores=['Articuno', 'Zapdos'])
-		juego.subir_nivel()
-		juego.subir_nivel()
+		juego = Juego.iniciar_en_nivel(jugadores=['Articuno', 'Zapdos'], nivel=3)
 		cartas_de = juego.cartas_por_jugador()
 		self.assertEqual(3, len(cartas_de['Articuno']))
 		self.assertEqual(3, len(cartas_de['Zapdos']))
 
 
 	def test_jugadores_tienen_cartas_distintas(self) -> None:
-		juego = Juego.iniciar(jugadores=['Articuno', 'Zapdos'])
-		juego.subir_nivel()
-		juego.subir_nivel()
+		juego = Juego.iniciar_en_nivel(jugadores=['Articuno', 'Zapdos'], nivel=3)
 		cartas_de = juego.cartas_por_jugador()
 
 		cartas_todas = [
@@ -125,12 +129,32 @@ class JuegoTest(unittest.TestCase):
 		)
 
 
-	def test_jugador_juega_mal_todos_descartan_las_menores(self) -> None:
+	def test_jugador_juega_alta_todos_descartan_las_menores(self) -> None:
+		juego = juego_default()
+		self.assertIn(1, juego.cartas_por_jugador()['Articuno'])
+		self.assertIn(2, juego.cartas_por_jugador()['Zapdos'])
+
+		juego.poner_carta('Articuno', 3)
+
+		self.assertNotIn(1, juego.cartas_por_jugador()['Articuno'])
+		self.assertNotIn(2, juego.cartas_por_jugador()['Zapdos'])
+
+
+	def test_no_puedo_subir_de_nivel_si_hay_cartas_pendientes(self) -> None:
+		juego = juego_default()
+		self.assertRaises(JuegoEnCursoException, juego.subir_nivel)
+
+
+	def test_avanzar_de_nivel_da_la_recompensa_correcta(self) -> None:
 		pass
 
 
-	def test_jugar_todas_las_cartas_avanza_de_nivel(self) -> None:
-		pass  # nose si estaria bien esto
+	def test_jugar_incorrectamente_pierde_vidas(self) -> None:
+		pass
+
+
+	def test_no_puedo_colocar_cartas_si_no_tengo_vidas(self) -> None:
+		pass
 
 
 

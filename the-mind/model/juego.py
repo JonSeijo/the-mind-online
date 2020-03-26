@@ -22,22 +22,32 @@ class Juego(object):
 
 	@classmethod
 	def iniciar(cls, jugadores: List[str] = []) -> 'Juego':
+		return cls.iniciar_en_nivel(jugadores=jugadores, nivel=1)
 
-		nivel_inicial = 1
-		cartas_por_jugador = cartas_repartidas(jugadores, nivel_inicial)
+	@classmethod
+	def iniciar_en_nivel(
+		cls,
+		jugadores: List[str],
+		nivel: int
+	) -> 'Juego':
+		cartas_por_jugador = cartas_repartidas(jugadores, nivel)
 
 		return cls(
 			jugadores=jugadores,
 			mesa = 0,
-			nivel=nivel_inicial,
+			nivel=nivel,
 			vidas=3,
 			cartas_por_jugador=cartas_por_jugador
 		)
+
 
 	def nivel(self) -> int:
 		return self._nivel
 
 	def subir_nivel(self) -> None:
+		if self._hay_cartas_pendientes():
+			raise JuegoEnCursoException()
+
 		self._nivel += 1
 		self._repartir_cartas()
 
@@ -60,8 +70,22 @@ class Juego(object):
 		if carta not in self._cartas_por_jugador[jugador]:
 			raise CartaInexistenteException()
 
-		self._cartas_por_jugador[jugador].remove(carta)
+		self._descartar_toda_carta_no_mayor(carta)
 		self._mesa = carta
+
+	def _hay_cartas_pendientes(self) -> bool:
+		for jugador, cartas in self._cartas_por_jugador.items():
+			if len(cartas) > 0:
+				return True
+
+		return False
+
+	def _descartar_toda_carta_no_mayor(self, carta_jugada: int) -> None:
+		for jugador, cartas in self._cartas_por_jugador.items():
+			self._cartas_por_jugador[jugador] = [
+				carta for carta in cartas
+				if carta > carta_jugada
+			]
 
 	def _assert_jugadores_unicos(self, jugadores: List[str]) -> None:
 		if len(jugadores) != len(set(jugadores)):
@@ -98,4 +122,8 @@ class JugadorInexistenteException(Exception):
 
 
 class CartaInexistenteException(Exception):
+	pass
+
+
+class JuegoEnCursoException(Exception):
 	pass
