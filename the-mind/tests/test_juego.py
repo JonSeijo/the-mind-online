@@ -9,7 +9,8 @@ from model.juego import (
 	JugadorExistenteException,
 	JugadorInexistenteException,
 	CartaInexistenteException,
-	JuegoEnCursoException
+	JuegoEnCursoException,
+	JuegoTerminadoException
 )
 
 
@@ -22,7 +23,8 @@ def juego_default() -> Juego:
 		cartas_por_jugador = {
 			'Articuno': [1, 3],
 			'Zapdos': [2, 4]
-		}
+		},
+		premios_vidas = [3, 6, 9]
 	)
 
 def juego_sin_cartas() -> Juego:
@@ -31,7 +33,21 @@ def juego_sin_cartas() -> Juego:
 		mesa = 0,
 		nivel = 1,
 		vidas = 3,
-		cartas_por_jugador = {}
+		cartas_por_jugador = {},
+		premios_vidas = [3, 6, 9]
+	)
+
+def juego_sin_vidas() -> Juego:
+	return Juego(
+		jugadores = ['Articuno', 'Zapdos'],
+		mesa = 0,
+		nivel = 1,
+		vidas = 0,
+		cartas_por_jugador = {
+			'Articuno': [1, 3],
+			'Zapdos': [2, 4]
+		},
+		premios_vidas = [3, 6, 9]
 	)
 
 class JuegoTest(unittest.TestCase):
@@ -145,17 +161,30 @@ class JuegoTest(unittest.TestCase):
 		self.assertRaises(JuegoEnCursoException, juego.subir_nivel)
 
 
-	def test_avanzar_de_nivel_da_la_recompensa_correcta(self) -> None:
-		pass
+	def test_avanzar_de_nivel_da_las_vidas_correctas_dos_jugs(self) -> None:
+		juego = juego_default()
+		gano_vida_al_completar = [3, 6, 9]
+		vidas_esperadas = 3
+		for nivel_act in range(1, 13):
+			juego.subir_nivel(force=True)
+
+			if nivel_act in gano_vida_al_completar:
+				vidas_esperadas += 1
+
+			self.assertEqual(vidas_esperadas, juego.vidas(), f'en nivel {nivel_act}')
 
 
 	def test_jugar_incorrectamente_pierde_vidas(self) -> None:
-		pass
+		juego = juego_default()
+		self.assertEqual(3, juego.vidas())
+		juego.poner_carta('Articuno', 3)
+		self.assertEqual(2, juego.vidas())
 
 
 	def test_no_puedo_colocar_cartas_si_no_tengo_vidas(self) -> None:
-		pass
-
+		juego = juego_sin_vidas()
+		self.assertRaises(JuegoTerminadoException,
+			juego.poner_carta, 'Articuno', 1)
 
 
 	def assertUnique(self, elems: List[int]) -> None:

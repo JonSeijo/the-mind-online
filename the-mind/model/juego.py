@@ -11,14 +11,16 @@ class Juego(object):
 		mesa: int = 0,
 		nivel: int = 0,
 		vidas: int = 0,
-		cartas_por_jugador: Dict[str, List[int]] = {}
+		cartas_por_jugador: Dict[str, List[int]] = {},
+		premios_vidas: List[int] = [],
 	) -> None:
 		self._assert_jugadores_unicos(jugadores)
 		self._mesa = mesa
 		self._nivel = nivel
 		self._vidas = vidas
-		self._jugadores: List[str] = jugadores
+		self._jugadores = jugadores
 		self._cartas_por_jugador = cartas_por_jugador
+		self._premios_vidas = premios_vidas
 
 	@classmethod
 	def iniciar(cls, jugadores: List[str] = []) -> 'Juego':
@@ -37,16 +39,20 @@ class Juego(object):
 			mesa = 0,
 			nivel=nivel,
 			vidas=3,
-			cartas_por_jugador=cartas_por_jugador
+			cartas_por_jugador=cartas_por_jugador,
+			premios_vidas=[3, 6, 9]
 		)
 
 
 	def nivel(self) -> int:
 		return self._nivel
 
-	def subir_nivel(self) -> None:
-		if self._hay_cartas_pendientes():
+	def subir_nivel(self, force=False) -> None:
+		if not force and self._hay_cartas_pendientes():
 			raise JuegoEnCursoException()
+
+		if self._nivel in self._premios_vidas:
+			self._vidas += 1
 
 		self._nivel += 1
 		self._repartir_cartas()
@@ -70,7 +76,13 @@ class Juego(object):
 		if carta not in self._cartas_por_jugador[jugador]:
 			raise CartaInexistenteException()
 
-		self._descartar_toda_carta_no_mayor(carta)
+		if self._vidas <= 0:
+			raise JuegoTerminadoException()
+
+		descartadas = self._descartar_toda_carta_no_mayor(carta)
+		if len(descartadas) > 1:
+			self._vidas -= 1
+
 		self._mesa = carta
 
 	def _hay_cartas_pendientes(self) -> bool:
@@ -81,11 +93,19 @@ class Juego(object):
 		return False
 
 	def _descartar_toda_carta_no_mayor(self, carta_jugada: int) -> None:
+		descartadas = []
 		for jugador, cartas in self._cartas_por_jugador.items():
+			descartadas += [
+				carta for carta in cartas
+				if carta <= carta_jugada
+			]
+
 			self._cartas_por_jugador[jugador] = [
 				carta for carta in cartas
 				if carta > carta_jugada
 			]
+
+		return descartadas
 
 	def _assert_jugadores_unicos(self, jugadores: List[str]) -> None:
 		if len(jugadores) != len(set(jugadores)):
@@ -126,4 +146,8 @@ class CartaInexistenteException(Exception):
 
 
 class JuegoEnCursoException(Exception):
+	pass
+
+
+class JuegoTerminadoException(Exception):
 	pass
