@@ -47,7 +47,7 @@ class Juego(object):
 	def nivel(self) -> int:
 		return self._nivel
 
-	def subir_nivel(self, force=False) -> None:
+	def subir_nivel(self, force: bool = False) -> None:
 		if not force and self._hay_cartas_pendientes():
 			raise JuegoEnCursoException()
 
@@ -92,7 +92,7 @@ class Juego(object):
 
 		return False
 
-	def _descartar_toda_carta_no_mayor(self, carta_jugada: int) -> None:
+	def _descartar_toda_carta_no_mayor(self, carta_jugada: int) -> List[int]:
 		descartadas = []
 		for jugador, cartas in self._cartas_por_jugador.items():
 			descartadas += [

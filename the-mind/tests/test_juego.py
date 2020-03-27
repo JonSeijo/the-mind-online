@@ -2,7 +2,7 @@
 
 import unittest
 
-from typing import List
+from typing import Any, Dict, List, Generic, Optional, TypeVar
 
 from model.juego import (
 	Juego,
@@ -12,43 +12,6 @@ from model.juego import (
 	JuegoEnCursoException,
 	JuegoTerminadoException
 )
-
-
-def juego_default() -> Juego:
-	return Juego(
-		jugadores = ['Articuno', 'Zapdos'],
-		mesa = 0,
-		nivel = 1,
-		vidas = 3,
-		cartas_por_jugador = {
-			'Articuno': [1, 3],
-			'Zapdos': [2, 4]
-		},
-		premios_vidas = [3, 6, 9]
-	)
-
-def juego_sin_cartas() -> Juego:
-	return Juego(
-		jugadores = ['Articuno', 'Zapdos'],
-		mesa = 0,
-		nivel = 1,
-		vidas = 3,
-		cartas_por_jugador = {},
-		premios_vidas = [3, 6, 9]
-	)
-
-def juego_sin_vidas() -> Juego:
-	return Juego(
-		jugadores = ['Articuno', 'Zapdos'],
-		mesa = 0,
-		nivel = 1,
-		vidas = 0,
-		cartas_por_jugador = {
-			'Articuno': [1, 3],
-			'Zapdos': [2, 4]
-		},
-		premios_vidas = [3, 6, 9]
-	)
 
 class JuegoTest(unittest.TestCase):
 
@@ -189,3 +152,41 @@ class JuegoTest(unittest.TestCase):
 
 	def assertUnique(self, elems: List[int]) -> None:
 		self.assertEqual(len(elems), len(set(elems)))
+
+
+def crear_juego_test(
+	jugadores : Optional[List[str]] = None,
+	mesa : Optional[int] = None,
+	nivel : Optional[int] = None,
+	vidas : Optional[int] = None,
+	cartas_por_jugador : Optional[Dict[str, List[int]]] = None,
+	premios_vidas : Optional[List[int]] = None
+) -> Juego:
+
+	return Juego(
+		jugadores = ordefault(jugadores, ['Articuno', 'Zapdos']),
+		mesa = ordefault(mesa, 0),
+		nivel = ordefault(nivel, 1),
+		vidas = ordefault(vidas, 3),
+		cartas_por_jugador = ordefault(cartas_por_jugador, {
+			'Articuno': [1, 3],
+			'Zapdos': [2, 4]
+		}),
+		premios_vidas = ordefault(premios_vidas, [3, 6, 9])
+	)
+
+
+def juego_default() -> Juego:
+	return crear_juego_test()
+
+
+def juego_sin_cartas() -> Juego:
+	return crear_juego_test(cartas_por_jugador={})
+
+
+def juego_sin_vidas() -> Juego:
+	return crear_juego_test(vidas=0)
+
+# pyre-ignore
+def ordefault(custom: Any, default: Any) -> Any:
+	return default if custom is None else custom
