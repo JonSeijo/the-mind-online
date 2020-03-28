@@ -10,8 +10,9 @@ function App() {
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    socket.emit('connect');
-    socket.on('connect_response', () => {
+    socket.emit('connectar', {'param': 'esto es un parametro de react'});
+    socket.on('connect_response', (param) => {
+      console.log(param)
       setCurrentTime(999);
     });
 
