@@ -1,34 +1,46 @@
-import React , { useState, useEffect } from 'react';
+import React from 'react';
 import io from 'socket.io-client'
-import logo from './logo.svg';
+import IntroView from './IntroView.js';
 import './App.css';
 
 const socket = io('http://localhost:5000')
 
-function App() {
+class App extends React.Component {
 
-  const [currentTime, setCurrentTime] = useState(0);
+  constructor(props) {
+    super(props);
+    this.state = {view: 'IntroView'};
+  }
 
-  useEffect(() => {
-    socket.emit('connectar', {'param': 'esto es un parametro de react'});
-    socket.on('connect_response', (param) => {
-      console.log(param)
-      setCurrentTime(999);
-    });
+  // useEffect(() => {
+    // socket.emit('conectar', {'param': 'esto es un parametro de react'});
+    // socket.emit('conectar');
+    // socket.on('connect_response', (param) => {
+    //   console.log(param)
+    //   setCurrentTime(999);
+    // });
 
     // fetch('/time').then(res => res.json()).then(data => {
     //   setCurrentTime(data.time);
     // });
-  }, []);
+  // }, []);
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>La hora actual es: {currentTime}</p>
-      </header>
-    </div>
-  );
+  render() {
+    if (this.state.view === 'IntroView') {
+      return ( <IntroView app={this}/> );
+    }
+
+    if (this.state.view === 'LobbyView') {
+      return ( 'Estoy en el lobby' );
+    }
+
+
+    return (
+      <div>
+        Che, no encontre { this.state.view }
+      </div>
+    )
+  }
 }
 
 export default App;
