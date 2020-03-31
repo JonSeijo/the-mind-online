@@ -1,6 +1,7 @@
 import React from 'react';
 import io from 'socket.io-client'
 import IntroView from './IntroView.js';
+import LobbyView from './LobbyView.js';
 import './App.css';
 
 const socket = io('http://localhost:5000')
@@ -9,21 +10,11 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {view: 'IntroView'};
+    this.state = {
+      view: 'IntroView',
+      name: ''
+    };
   }
-
-  // useEffect(() => {
-    // socket.emit('conectar', {'param': 'esto es un parametro de react'});
-    // socket.emit('conectar');
-    // socket.on('connect_response', (param) => {
-    //   console.log(param)
-    //   setCurrentTime(999);
-    // });
-
-    // fetch('/time').then(res => res.json()).then(data => {
-    //   setCurrentTime(data.time);
-    // });
-  // }, []);
 
   render() {
     if (this.state.view === 'IntroView') {
@@ -31,7 +22,11 @@ class App extends React.Component {
     }
 
     if (this.state.view === 'LobbyView') {
-      return ( 'Estoy en el lobby' );
+      return (
+        <LobbyView
+          app={this}
+          name={this.state.name}
+          socket={socket}/> );
     }
 
 

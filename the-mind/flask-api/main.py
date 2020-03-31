@@ -17,10 +17,10 @@ def my_index():
 def time_api():
 	return {'time': time.time()}
 
-@socketio.on('connectar')
+@socketio.on('conectar')
 def on_connect(param):
-	print("param: ", param)
-	emit('connect_response', param)
+	print("Alguien se conecto!")
+	emit('conectar_response', {'status': 'OK'})
 
 if __name__ == "__main__":
 
