@@ -18,10 +18,20 @@ def my_index():
 def time_api():
 	return {'time': time.time()}
 
+# DEBUG
+@app.route("/reset")
+def reset_debug():
+	lobby.reset()
+	return "reset"
+
 @socketio.on('conectar')
 def on_connect(param):
 	print("Alguien se conecto!")
 	emit('conectar_response', {'status': 'OK'})
+
+@socketio.on('disconnect')
+def on_disconnect():
+    print('ALGUIEN SE DESCONECTO')
 
 @socketio.on('agregar_jugador_lobby')
 def on_agregar_jugador_lobby(params):

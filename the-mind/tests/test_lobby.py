@@ -45,3 +45,11 @@ class LobbyTest(unittest.TestCase):
 			{'jugadores': ['Articuno', 'Zapdos']},
 			lobby.estado()
 		)
+
+	def test_lobby_resetea_correctamente(self) -> None:
+		lobby = Lobby()
+		lobby.agregar_jugador('Articuno')
+		lobby.agregar_jugador('Zapdos')
+
+		lobby.reset()
+		self.assertEqual({'jugadores': []}, lobby.estado())

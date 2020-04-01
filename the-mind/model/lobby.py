@@ -28,6 +28,9 @@ class Lobby():
 			'jugadores': self.jugadores()
 		}
 
+	def reset(self) -> None:
+		self._jugadores = []
+
 class JugadorExistenteException(Exception):
 	pass
 
