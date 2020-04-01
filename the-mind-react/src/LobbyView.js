@@ -3,10 +3,19 @@ import React from 'react'
 class LobbyView extends React.Component {
 
   componentDidMount() {
-    this.props.socket.emit('conectar', {});
-    this.props.socket.on('conectar_response', (param) => {
-      console.log('Conexion con el server: ' + param.status)
+    this.props.socket.on('lobby_update', (lobby_state) => {
+      this.handleLobbyUpdate(lobby_state)
     })
+
+    this.props.socket.emit(
+      'agregar_jugador_lobby', {
+        'name': this.props.name
+      })
+  }
+
+  handleLobbyUpdate(lobby_state) {
+    console.log('Me llego la info del lobby:')
+    console.log(lobby_state)
   }
 
   render() {
