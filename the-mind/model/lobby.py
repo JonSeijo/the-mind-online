@@ -23,6 +23,10 @@ class Lobby():
 	def jugadores(self) -> List[str]:
 		return self._jugadores
 
+	def estado(self) -> List[str]:
+		return {
+			'jugadores': self.jugadores()
+		}
 
 class JugadorExistenteException(Exception):
 	pass

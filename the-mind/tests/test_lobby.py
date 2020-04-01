@@ -36,3 +36,12 @@ class LobbyTest(unittest.TestCase):
 		lobby = Lobby()
 		self.assertRaises(JugadorInexistenteException,
 			lobby.remover_jugador, 'Articuno')
+
+	def test_lobby_muestra_estado_correctamente(self) -> None:
+		lobby = Lobby()
+		lobby.agregar_jugador('Articuno')
+		lobby.agregar_jugador('Zapdos')
+		self.assertEqual(
+			{'jugadores': ['Articuno', 'Zapdos']},
+			lobby.estado()
+		)
