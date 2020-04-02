@@ -32,14 +32,14 @@ def on_connect(param):
 @socketio.on('disconnect')
 def on_disconnect():
 	name = info_conexiones.pop(request.sid, None)
-	print('--DESCONECTO: ' + name)
+	print('--DESCONECTO: ' + str(name))
 
 	lobby.remover_jugador(name)
 	socketio.emit('lobby_update', lobby.estado())
 
 
-@socketio.on('agregar_jugador_lobby')
-def on_agregar_jugador_lobby(params):
+@socketio.on('lobby_agregar_jugador')
+def on_lobby_agregar_jugador(params):
 	try:
 		name = params['name']
 		lobby.agregar_jugador(name)
@@ -51,8 +51,16 @@ def on_agregar_jugador_lobby(params):
 	except Exception as ex:
 		emit('lobby_update', {'error': str(ex)})
 
+@socketio.on('juego_iniciar')
+def on_juego_iniciar():
+	if len(lobby.jugadores()) >= 2:
+		juego = Juego()
+		socketio.emit('juego_iniciado')
+
+
 if __name__ == "__main__":
 	info_conexiones = {}
 	lobby = Lobby()
+	juego = None
 	socketio.run(app, port=5000, debug=True)
 

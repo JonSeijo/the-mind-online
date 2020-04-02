@@ -2,6 +2,7 @@ import React from 'react';
 import io from 'socket.io-client'
 import IntroView from './IntroView.js';
 import LobbyView from './LobbyView.js';
+import JuegoView from './JuegoView.js';
 import './App.css';
 
 const socket = io('http://localhost:5000')
@@ -27,6 +28,14 @@ class App extends React.Component {
           app={this}
           name={this.state.name}
           socket={socket}/> );
+    }
+
+    if (this.state.view === 'JuegoView') {
+      return (
+        <JuegoView
+          app={this}
+          name={this.state.name}
+          socket={socket}/>);
     }
 
 
