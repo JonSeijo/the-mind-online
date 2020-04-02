@@ -32,7 +32,8 @@ class Lobby():
 		self._jugadores = []
 
 class JugadorExistenteException(Exception):
-	pass
+    def __init__(self, msg='El jugador ya esta en el lobby', *args, **kwargs):
+        super().__init__(msg, *args, **kwargs)
 
 class JugadorInexistenteException(Exception):
 	pass

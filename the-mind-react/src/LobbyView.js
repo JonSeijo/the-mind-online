@@ -25,14 +25,15 @@ class LobbyView extends React.Component {
     console.log('Me llego la info del lobby:')
     console.log(lobby_state)
     this.setState({
-      'jugadores': lobby_state.jugadores
+      'jugadores': lobby_state.jugadores,
+      'error': lobby_state.error,
     })
   }
 
   render() {
 
     if (this.state.error) {
-      return "Error" + this.state.error;
+      return "ERROR: " + this.state.error;
     }
 
     const jugadoresItems = this.state.jugadores.map((jugador) =>

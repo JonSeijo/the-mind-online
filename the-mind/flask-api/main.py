@@ -1,6 +1,6 @@
 import time
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_socketio import SocketIO, join_room, emit, send
 
 from model.juego import Juego
@@ -31,18 +31,28 @@ def on_connect(param):
 
 @socketio.on('disconnect')
 def on_disconnect():
-    print('ALGUIEN SE DESCONECTO')
+	name = info_conexiones.pop(request.sid, None)
+	print('--DESCONECTO: ' + name)
+
+	lobby.remover_jugador(name)
+	socketio.emit('lobby_update', lobby.estado())
+
 
 @socketio.on('agregar_jugador_lobby')
 def on_agregar_jugador_lobby(params):
 	try:
-		lobby.agregar_jugador(params['name'])
+		name = params['name']
+		lobby.agregar_jugador(name)
+
+		info_conexiones[request.sid] = name
+
 		socketio.emit('lobby_update', lobby.estado())
 
 	except Exception as ex:
 		emit('lobby_update', {'error': str(ex)})
 
 if __name__ == "__main__":
+	info_conexiones = {}
 	lobby = Lobby()
 	socketio.run(app, port=5000, debug=True)
 
