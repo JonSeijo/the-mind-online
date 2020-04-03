@@ -13,6 +13,7 @@ class Juego(object):
 		vidas: int = 0,
 		cartas_por_jugador: Dict[str, List[int]] = {},
 		premios_vidas: List[int] = [],
+		terminado: bool = False,
 	) -> None:
 		self._assert_jugadores_unicos(jugadores)
 		self._mesa = mesa
@@ -21,6 +22,7 @@ class Juego(object):
 		self._jugadores = jugadores
 		self._cartas_por_jugador = cartas_por_jugador
 		self._premios_vidas = premios_vidas
+		self._terminado = terminado
 
 	@classmethod
 	def iniciar(cls, jugadores: List[str] = []) -> 'Juego':
@@ -76,7 +78,7 @@ class Juego(object):
 		if carta not in self._cartas_por_jugador[jugador]:
 			raise CartaInexistenteException()
 
-		if self._vidas <= 0:
+		if self.terminado():
 			raise JuegoTerminadoException()
 
 		descartadas = self._descartar_toda_carta_no_mayor(carta)
@@ -85,15 +87,18 @@ class Juego(object):
 
 		self._mesa = carta
 
-	def en_curso(self) -> bool:
-		return self._vidas > 0
+	def terminado(self) -> bool:
+		return self._terminado or self._vidas <= 0
+
+	def terminar(self) -> None:
+		self._terminado = True
 
 	def estado(self) -> Dict[str, Any]:
 		return {
 			'vidas': self.vidas(),
 			'nivel': self.nivel(),
 			'mesa': self.mesa(),
-			'en_curso': self.en_curso(),
+			'terminado': self.terminado(),
 			'jugadores': self.jugadores(),
 			'cartas_por_jugador': self.cartas_por_jugador()
 		}

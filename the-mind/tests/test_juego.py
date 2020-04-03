@@ -149,12 +149,29 @@ class JuegoTest(unittest.TestCase):
 		self.assertRaises(JuegoTerminadoException,
 			juego.poner_carta, 'Articuno', 1)
 
+
 	def test_juego_en_curso_si_no_perdi(self) -> None:
 		juego = juego_con_vidas(1)
-		self.assertTrue(juego.en_curso())
+		self.assertFalse(juego.terminado())
 
 		juego.poner_carta('Articuno', 3)
-		self.assertFalse(juego.en_curso())
+		self.assertTrue(juego.terminado())
+
+
+	def test_juego_termina_forzosamente(self) -> None:
+		juego = juego_default()
+		self.assertFalse(juego.terminado())
+
+		juego.terminar()
+		self.assertTrue(juego.terminado())
+
+
+	def test_juego_no_pone_carta_si_termino_forzosamente(self) -> None:
+		juego = juego_default()
+		juego.terminar()
+		self.assertRaises(JuegoTerminadoException,
+			juego.poner_carta, 'Articuno', 1)
+
 
 	def test_estado_del_juego(self) -> None:
 		juego = juego_default()
@@ -163,7 +180,7 @@ class JuegoTest(unittest.TestCase):
 				'nivel': 1,
 				'mesa': 0,
 				'vidas': 3,
-				'en_curso': True,
+				'terminado': False,
 				'jugadores': ['Articuno', 'Zapdos'],
 				'cartas_por_jugador': {
 					'Articuno': [1, 3],
