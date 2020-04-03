@@ -1,7 +1,7 @@
 # pyre-strict
 
 import random
-from typing import Dict, List
+from typing import Any, Dict, List
 
 class Juego(object):
 
@@ -84,6 +84,19 @@ class Juego(object):
 			self._vidas -= 1
 
 		self._mesa = carta
+
+	def en_curso(self) -> bool:
+		return self._vidas > 0
+
+	def estado(self) -> Dict[str, Any]:
+		return {
+			'vidas': self.vidas(),
+			'nivel': self.nivel(),
+			'mesa': self.mesa(),
+			'en_curso': self.en_curso(),
+			'jugadores': self.jugadores(),
+			'cartas_por_jugador': self.cartas_por_jugador()
+		}
 
 	def _hay_cartas_pendientes(self) -> bool:
 		for jugador, cartas in self._cartas_por_jugador.items():

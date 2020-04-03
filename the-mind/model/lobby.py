@@ -1,6 +1,6 @@
 # pyre-strict
 
-from typing import List
+from typing import Any, Dict, List
 
 
 class Lobby():
@@ -23,7 +23,7 @@ class Lobby():
 	def jugadores(self) -> List[str]:
 		return self._jugadores
 
-	def estado(self) -> List[str]:
+	def estado(self) -> Dict[str, Any]:
 		return {
 			'jugadores': self.jugadores()
 		}
@@ -32,8 +32,9 @@ class Lobby():
 		self._jugadores = []
 
 class JugadorExistenteException(Exception):
-    def __init__(self, msg='El jugador ya esta en el lobby', *args, **kwargs):
-        super().__init__(msg, *args, **kwargs)
+	def __init__(self, msg: str ='El jugador ya esta en el lobby'
+	) -> None:
+		super().__init__(msg)
 
 class JugadorInexistenteException(Exception):
 	pass

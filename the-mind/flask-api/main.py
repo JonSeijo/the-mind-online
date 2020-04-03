@@ -1,6 +1,7 @@
 import time
 
 from flask import Flask, render_template, request
+# pyre-ignore
 from flask_socketio import SocketIO, join_room, emit, send
 
 from model.juego import Juego
@@ -54,7 +55,7 @@ def on_lobby_agregar_jugador(params):
 @socketio.on('juego_iniciar')
 def on_juego_iniciar():
 	if len(lobby.jugadores()) >= 2:
-		juego = Juego()
+		juego = Juego.iniciar(jugadores=lobby.jugadores())
 		socketio.emit('juego_iniciado')
 
 

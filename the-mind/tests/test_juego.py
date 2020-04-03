@@ -149,6 +149,28 @@ class JuegoTest(unittest.TestCase):
 		self.assertRaises(JuegoTerminadoException,
 			juego.poner_carta, 'Articuno', 1)
 
+	def test_juego_en_curso_si_no_perdi(self) -> None:
+		juego = juego_con_vidas(1)
+		self.assertTrue(juego.en_curso())
+
+		juego.poner_carta('Articuno', 3)
+		self.assertFalse(juego.en_curso())
+
+	def test_estado_del_juego(self) -> None:
+		juego = juego_default()
+		self.assertEqual(
+			{
+				'nivel': 1,
+				'mesa': 0,
+				'vidas': 3,
+				'en_curso': True,
+				'jugadores': ['Articuno', 'Zapdos'],
+				'cartas_por_jugador': {
+					'Articuno': [1, 3],
+					'Zapdos': [2, 4]
+				},
+			}
+			, juego.estado())
 
 	def assertUnique(self, elems: List[int]) -> None:
 		self.assertEqual(len(elems), len(set(elems)))
@@ -186,6 +208,9 @@ def juego_sin_cartas() -> Juego:
 
 def juego_sin_vidas() -> Juego:
 	return crear_juego_test(vidas=0)
+
+def juego_con_vidas(vidas: int) -> Juego:
+	return crear_juego_test(vidas=vidas)
 
 # pyre-ignore
 def ordefault(custom: Any, default: Any) -> Any:
