@@ -14,7 +14,13 @@ class IntroView extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     let name = this.state.name;
+
     if (name) {
+      this.props.socket.emit(
+      'lobby_agregar_jugador', {
+        'name': name
+      })
+
       this.props.app.setState({
         view: 'LobbyView',
         name: name

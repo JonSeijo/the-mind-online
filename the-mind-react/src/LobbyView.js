@@ -14,15 +14,11 @@ class LobbyView extends React.Component {
     this.props.socket.on('lobby_update', (lobby_state) => {
       this.handleLobbyUpdate(lobby_state)
     })
+    this.props.socket.emit('lobby_estado')
+  }
 
-    this.props.socket.on('juego_iniciado', () => {
-      this.handleJuegoIniciado()
-    })
-
-    this.props.socket.emit(
-      'lobby_agregar_jugador', {
-        'name': this.props.name
-      })
+  componentWillUnmount() {
+    this.props.socket.off('lobby_update')
   }
 
   handleLobbyUpdate(lobby_state) {
@@ -31,13 +27,6 @@ class LobbyView extends React.Component {
     this.setState({
       'jugadores': lobby_state.jugadores,
       'error_lobby': lobby_state.error,
-    })
-  }
-
-  handleJuegoIniciado() {
-    console.log('Quiero iniciar el juego')
-    this.props.app.setState({
-      'view': 'JuegoView'
     })
   }
 
