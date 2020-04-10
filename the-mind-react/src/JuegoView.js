@@ -6,6 +6,7 @@ class JuegoView extends React.Component {
     super(props);
     this.state = {
       'mesa': -1,
+      'vidas': 0,
       'cartas': [],
       'jugadores_cantidades': {},
     }
@@ -39,6 +40,7 @@ class JuegoView extends React.Component {
 
     this.setState({
       'mesa': juego_state.mesa,
+      'vidas': juego_state.vidas,
       'cartas': cartas_mias,
       'jugadores_cantidades': jugadores_cantidades
     })
@@ -75,10 +77,14 @@ class JuegoView extends React.Component {
         <div> Mis cartas son: </div>
         <div> {cartasItems} </div>
         <br/>
+        <div> VIDAS: </div>
+        <div> {this.state.vidas} </div>
+        <br/>
         <div> Cant de cartas restantes: </div>
         <div> <ul>{cartasRestantes}</ul> </div>
         <br/>
         { this.botonSiguienteNivel(cuentaCartasRestantes) }
+        { this.botonGameOver(this.state.vidas) }
       </div>
     )
   }
@@ -92,6 +98,20 @@ class JuegoView extends React.Component {
           this.props.socket.emit('subir_nivel');
          }}>
           SIGUIENTE NIVEL
+        </button>
+      </div>
+    )
+  }
+
+  botonGameOver(vidas) {
+    return vidas ? null : (
+      <div>
+        <button
+         onClick={event => {
+          event.preventDefault();
+          this.props.socket.emit('juego_quiero_terminar');
+         }}>
+          GAME OVER
         </button>
       </div>
     )

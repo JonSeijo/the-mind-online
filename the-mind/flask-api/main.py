@@ -86,6 +86,13 @@ def on_subir_nivel():
 	themind.juego.subir_nivel()
 	socketio.emit('juego_update', themind.juego.estado())
 
+
+@socketio.on('juego_quiero_terminar')
+def on_juego_quiero_terminar():
+	themind.juego.terminar()
+	socketio.emit('juego_terminado', themind.lobby.estado())
+
+
 @socketio.on('lobby_estado')
 def on_lobby_estado():
 	emit('lobby_update', themind.lobby.estado())
