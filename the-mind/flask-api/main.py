@@ -69,6 +69,23 @@ def on_juego_iniciar():
 		socketio.emit('juego_iniciado')
 
 
+@socketio.on('poner_carta')
+def on_poner_carta(params):
+	name = info_conexiones.get(request.sid, None)
+	if not name:
+		return
+
+	carta = int(params['carta'])
+	themind.juego.poner_carta(name, carta)
+	socketio.emit('juego_update', themind.juego.estado())
+
+
+@socketio.on('subir_nivel')
+def on_subir_nivel():
+	# TODO: try catch aca
+	themind.juego.subir_nivel()
+	socketio.emit('juego_update', themind.juego.estado())
+
 @socketio.on('lobby_estado')
 def on_lobby_estado():
 	emit('lobby_update', themind.lobby.estado())

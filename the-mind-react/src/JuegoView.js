@@ -29,16 +29,13 @@ class JuegoView extends React.Component {
     let cartas_mias = cartas_por_jugador[name]
     let jugadores_cantidades = {}
 
-    console.log("cartas_por_jugador")
-    console.log(cartas_por_jugador)
-
     Object.entries(cartas_por_jugador).map(
       ([jug, suscartas]) =>
         jugadores_cantidades[jug] = suscartas.length
     )
 
-    console.log("jugadores_cantidades")
-    console.log(jugadores_cantidades)
+    // Normal integer sort because javascript
+    cartas_mias.sort((a, b) => (a - b));
 
     this.setState({
       'mesa': juego_state.mesa,
@@ -51,10 +48,13 @@ class JuegoView extends React.Component {
 
     let cartasItems = []
     let cartasRestantes = []
+    let cuentaCartasRestantes = 0
 
     if (this.state.cartas) {
       cartasItems = this.state.cartas.map((carta) =>
-        <li key={carta}> {carta} </li>
+        <Carta key={carta}
+          valor={carta}
+          socket={this.props.socket}/>
       );
     }
 
@@ -62,6 +62,9 @@ class JuegoView extends React.Component {
       cartasRestantes = Object.entries(this.state.jugadores_cantidades)
         .map( ([jug, cant]) =>
           <li key={jug}> {jug + ": " + cant} </li>)
+
+      Object.entries(this.state.jugadores_cantidades)
+        .forEach( ([jug, cant]) => {cuentaCartasRestantes += cant} )
     }
 
     return (
@@ -70,10 +73,47 @@ class JuegoView extends React.Component {
         <div> La carta en la mesa es: {this.state.mesa} </div>
         <br/>
         <div> Mis cartas son: </div>
-        <div> <ul>{cartasItems}</ul> </div>
+        <div> {cartasItems} </div>
         <br/>
         <div> Cant de cartas restantes: </div>
         <div> <ul>{cartasRestantes}</ul> </div>
+        <br/>
+        { this.botonSiguienteNivel(cuentaCartasRestantes) }
+      </div>
+    )
+  }
+
+  botonSiguienteNivel(cantRestantes) {
+    return cantRestantes ? null : (
+      <div>
+        <button
+         onClick={event => {
+          event.preventDefault();
+          this.props.socket.emit('subir_nivel');
+         }}>
+          SIGUIENTE NIVEL
+        </button>
+      </div>
+    )
+  }
+}
+
+class Carta extends React.Component {
+
+  handleClick(event) {
+    event.preventDefault();
+    this.props.socket.emit('poner_carta',
+      {'carta': this.props.valor}
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <div>{this.props.valor}</div>
+        <div>
+          <button onClick={event => this.handleClick(event)}> Poner </button>
+        </div>
       </div>
     )
   }
