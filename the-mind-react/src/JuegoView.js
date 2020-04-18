@@ -1,4 +1,7 @@
 import React from 'react'
+import InfoSection from './section/InfoSection.js'
+import MesaSection from './section/MesaSection.js'
+import ManoSection from './section/ManoSection.js'
 
 class JuegoView extends React.Component {
 
@@ -8,7 +11,7 @@ class JuegoView extends React.Component {
       'mesa': -1,
       'vidas': 0,
       'cartas': [],
-      'jugadores_cantidades': {},
+      'cant_cartas_jugadores': {},
     }
   }
 
@@ -28,11 +31,11 @@ class JuegoView extends React.Component {
     let name = this.props.name
     let cartas_por_jugador = juego_state.cartas_por_jugador
     let cartas_mias = cartas_por_jugador[name]
-    let jugadores_cantidades = {}
+    let cant_cartas_jugadores = {}
 
     Object.entries(cartas_por_jugador).map(
       ([jug, suscartas]) =>
-        jugadores_cantidades[jug] = suscartas.length
+        cant_cartas_jugadores[jug] = suscartas.length
     )
 
     // Normal integer sort because javascript
@@ -41,99 +44,31 @@ class JuegoView extends React.Component {
     this.setState({
       'mesa': juego_state.mesa,
       'vidas': juego_state.vidas,
+      'nivel': juego_state.nivel,
       'cartas': cartas_mias,
-      'jugadores_cantidades': jugadores_cantidades
+      'cant_cartas_jugadores': cant_cartas_jugadores
     })
   }
 
   render() {
-
-    let cartasItems = []
-    let cartasRestantes = []
-    let cuentaCartasRestantes = 0
-
-    if (this.state.cartas) {
-      cartasItems = this.state.cartas.map((carta) =>
-        <Carta key={carta}
-          valor={carta}
-          socket={this.props.socket}/>
-      );
-    }
-
-    if (this.state.jugadores_cantidades) {
-      cartasRestantes = Object.entries(this.state.jugadores_cantidades)
-        .map( ([jug, cant]) =>
-          <li key={jug}> {jug + ": " + cant} </li>)
-
-      Object.entries(this.state.jugadores_cantidades)
-        .forEach( ([jug, cant]) => {cuentaCartasRestantes += cant} )
-    }
-
     return (
       <div>
-        <div> Estoy en el JUEGO. </div>
-        <div> La carta en la mesa es: {this.state.mesa} </div>
-        <br/>
-        <div> Mis cartas son: </div>
-        <div> {cartasItems} </div>
-        <br/>
-        <div> VIDAS: </div>
-        <div> {this.state.vidas} </div>
-        <br/>
-        <div> Cant de cartas restantes: </div>
-        <div> <ul>{cartasRestantes}</ul> </div>
-        <br/>
-        { this.botonSiguienteNivel(cuentaCartasRestantes) }
-        { this.botonGameOver(this.state.vidas) }
-      </div>
-    )
-  }
 
-  botonSiguienteNivel(cantRestantes) {
-    return cantRestantes ? null : (
-      <div>
-        <button
-         onClick={event => {
-          event.preventDefault();
-          this.props.socket.emit('subir_nivel');
-         }}>
-          SIGUIENTE NIVEL
-        </button>
-      </div>
-    )
-  }
+        <InfoSection
+          nivel={this.state.nivel}
+          vidas={this.state.vidas}
+          cant_cartas_jugadores={this.state.cant_cartas_jugadores}
+        />
 
-  botonGameOver(vidas) {
-    return vidas ? null : (
-      <div>
-        <button
-         onClick={event => {
-          event.preventDefault();
-          this.props.socket.emit('juego_quiero_terminar');
-         }}>
-          GAME OVER
-        </button>
-      </div>
-    )
-  }
-}
+        <MesaSection mesa={this.state.mesa}/>
 
-class Carta extends React.Component {
+        <ManoSection
+          socket={this.props.socket}
+          vidas={this.state.vidas}
+          cartas={this.state.cartas}
+          cant_cartas_jugadores={this.state.cant_cartas_jugadores}
+        />
 
-  handleClick(event) {
-    event.preventDefault();
-    this.props.socket.emit('poner_carta',
-      {'carta': this.props.valor}
-    );
-  }
-
-  render() {
-    return (
-      <div>
-        <div>{this.props.valor}</div>
-        <div>
-          <button onClick={event => this.handleClick(event)}> Poner </button>
-        </div>
       </div>
     )
   }
