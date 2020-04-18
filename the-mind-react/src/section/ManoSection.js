@@ -1,4 +1,5 @@
 import React from 'react'
+import './SectionStyles.css'
 
 class ManoSection extends React.Component {
 
@@ -8,7 +9,7 @@ class ManoSection extends React.Component {
     let cartasRestantesCount = this.countCartasRestantes()
 
     return (
-      <div>
+      <div className="ManoSection">
         <div> Mano: {cartasElems} </div>
         { this.botonSiguienteNivel(cartasRestantesCount) }
         { this.botonGameOver(this.props.vidas) }
@@ -51,7 +52,6 @@ class ManoSection extends React.Component {
 }
 
 class Carta extends React.Component {
-
   handleClick(event) {
     event.preventDefault();
     this.props.socket.emit('poner_carta',

@@ -52,7 +52,7 @@ class JuegoView extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="WrapperSection">
 
         <InfoSection
           nivel={this.state.nivel}

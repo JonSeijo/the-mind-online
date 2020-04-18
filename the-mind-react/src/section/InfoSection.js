@@ -1,12 +1,12 @@
 import React from 'react'
+import './SectionStyles.css'
 
 class InfoSection extends React.Component {
-
 
   render() {
     let cantCartasElems = this.buildCantCartasElems()
     return (
-      <div>
+      <div className="InfoSection">
         <div> Nivel: {this.props.nivel} </div>
         <div> Vidas: {this.props.vidas} </div>
         <div> Cartas restantes: {cantCartasElems} </div>

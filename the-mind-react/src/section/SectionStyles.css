@@ -1,0 +1,20 @@
+.WrapperSection {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.InfoSection {
+  height: 20%;
+  background-color: #FFE8C6;
+}
+
+.MesaSection {
+  height: 40%;
+  background-color: #D39DC3;
+}
+
+.ManoSection {
+  height: 40%;
+  background-color: #989CC4;
+}
