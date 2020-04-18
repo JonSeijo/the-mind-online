@@ -7,7 +7,7 @@ class MesaSection extends React.Component {
   render() {
     return (
       <div className="MesaSection">
-        <div> Mesa: {this.props.mesa} </div>
+        <div className="MesaValor"> {this.props.mesa} </div>
       </div>
     )
   }

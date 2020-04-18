@@ -10,11 +10,21 @@
 }
 
 .MesaSection {
-  height: 40%;
+  height:40%;
   background-color: #D39DC3;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.MesaValor {
+  font-size: 72px;
 }
 
 .ManoSection {
   height: 40%;
   background-color: #989CC4;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
