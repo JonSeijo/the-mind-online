@@ -59,3 +59,8 @@
   justify-content: center;
   max-width: 200px;
 }
+
+.Carta:hover {
+  cursor: pointer;
+  background-color: red;
+}

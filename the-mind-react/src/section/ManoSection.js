@@ -58,25 +58,23 @@ class Carta extends React.Component {
 
   render() {
     return (
-      <div className="Carta">
+      <div
+        className="Carta"
+        onClick={event => {
+          event.preventDefault();
+          this.props.socket.emit('poner_carta', {'carta': this.props.valor});
+        }}>
         <div>{this.props.valor}</div>
-        <div> {buttonEmiter(this.props.socket,
-            'Poner', 'poner_carta', {'carta': this.props.valor})}
-        </div>
       </div>
     )
   }
 }
 
-function buttonEmiter(socket, button_text, emit_msg, emit_params) {
+function buttonEmiter(socket, button_text, emit_msg) {
   return (
     <button onClick={event => {
       event.preventDefault();
-      if (emit_params) {
-        socket.emit(emit_msg, emit_params);
-      } else {
-        socket.emit(emit_msg);
-      }
+      socket.emit(emit_msg);
      }}>
       {button_text}
     </button>)
