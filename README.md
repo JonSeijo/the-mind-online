@@ -1,6 +1,6 @@
 # Server
 
-## INSTALLING:
+## INSTALL:
 
 Pararse en the-mind-online
 Creamos un entorno virtual donde vamos a instalar las librerias de python:
@@ -18,7 +18,7 @@ Instalamos las librerias necesarias (importante, el venv tiene que estar activad
 ```pip install -r requirements.txt```
 
 
-## RUNNIG
+## RUN
 
 Cada vez que querramos usar el server tenemos que activar el entorno virtual
 ```source the-mind-venv/bin/activate```
@@ -40,7 +40,7 @@ El _server_ arranca en localhost:5000, se puede acceder desde el navegador
 
 # Cliente
 
-## INSTALLING
+## INSTALL
 
 - Instalar yarn
 ( https://classic.yarnpkg.com/en/docs/install/#debian-stable )
@@ -52,7 +52,7 @@ Parados en "the-mind-react", queremos instalar las dependencias especificadas en
 ``` yarn install```
 
 
-## RUNNIG
+## RUN
 
 Parados en "the-mind-react":
 ``` yarn start```
