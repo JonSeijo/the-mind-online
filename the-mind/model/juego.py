@@ -56,6 +56,7 @@ class Juego(object):
 		if self._nivel in self._premios_vidas:
 			self._vidas += 1
 
+		self._mesa = 0
 		self._nivel += 1
 		self._repartir_cartas()
 

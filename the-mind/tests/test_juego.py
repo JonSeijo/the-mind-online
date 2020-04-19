@@ -172,6 +172,14 @@ class JuegoTest(unittest.TestCase):
 		self.assertRaises(JuegoTerminadoException,
 			juego.poner_carta, 'Articuno', 1)
 
+	def test_mesa_es_cero_al_subir_de_nivel(self) -> None:
+		juego = juego_default()
+		self.assertEqual(0, juego.mesa())
+		juego.poner_carta('Zapdos', 4)
+		self.assertEqual(4, juego.mesa())
+		juego.subir_nivel()
+		self.assertEqual(0, juego.mesa())
+
 
 	def test_estado_del_juego(self) -> None:
 		juego = juego_default()
