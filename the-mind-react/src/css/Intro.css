@@ -10,7 +10,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 72px;
+  font-size: 120px;
   color: white;
 }
 
@@ -26,5 +26,5 @@
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-  font-size: 28px;
+  font-size: 42px;
 }
