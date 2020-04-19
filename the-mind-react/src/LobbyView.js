@@ -37,15 +37,18 @@ class LobbyView extends React.Component {
     }
 
     const jugadoresItems = this.state.jugadores.map((jugador) =>
-      <li key={jugador}> {jugador} </li>
+      <div key={jugador}> {jugador} </div>
     );
 
     return (
-      <div>
-        <div> Estoy en el lobby. Soy { this.props.name }. </div>
-        <div> Los jugadores son: </div>
-        <div> <ul>{jugadoresItems}</ul> </div>
-        { this.renderBotonIniciar(this.state.jugadores) }
+      <div className="LobbyWrapper">
+        <div className="LobbyHeader">
+          <div className="LobbyJugadoresTitle"> Jugadores </div>
+          <div className="LobbyJugadores"> {jugadoresItems} </div>
+        </div>
+        <div className="LobbyIniciar">
+          { this.renderBotonIniciar(this.state.jugadores) }
+        </div>
       </div>
     )
   }

@@ -2,13 +2,16 @@
   height: 100%;
   width: 100%;
   position: absolute;
+  color: white;
+  background-color: #1f304a;
+  /*text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;*/
 }
 
 
 .InfoSection {
+  font-size: 32px;
   width: 100%;
   height: 20%;
-  background-color: #A4B8C4;
 }
 
 .InfoSection_vidas {
@@ -31,26 +34,25 @@
 
 .MesaSection {
   height: 40%;
-  background-color: #C8D3D5;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .MesaValor {
-  font-size: 72px;
+  font-size: 150px;
 }
 
 
 .ManoSection {
   height: 40%;
-  background-color: #FCFAFA;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .Carta {
+  font-size: 42px;
   margin-left: 20px;
   display: inline-block;
   text-align: center;

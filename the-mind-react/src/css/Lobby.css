@@ -1,0 +1,34 @@
+.LobbyWrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  /*background-color: #AACFCF;*/
+  background-color: #1f304a;
+  color: white;
+}
+
+.LobbyHeader {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.LobbyJugadoresTitle {
+  font-size: 32px;
+  margin-top: 50px;
+}
+
+.LobbyJugadores {
+  margin-top: 50px;
+  font-size: 24px;
+}
+
+.LobbyIniciar {
+  display: flex;
+  height: 70%;
+  align-items: center;
+  justify-content: center;
+}

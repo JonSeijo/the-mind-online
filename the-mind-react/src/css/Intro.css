@@ -2,7 +2,7 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  background-color: #C8D3D5;
+  background-color: #1f304a;
 }
 
 .IntroTitle {
@@ -11,6 +11,7 @@
   justify-content: center;
   align-items: center;
   font-size: 72px;
+  color: white;
 }
 
 .IntroContent {
@@ -21,6 +22,7 @@
 }
 
 .IntroInputTitle {
+  color: white;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
