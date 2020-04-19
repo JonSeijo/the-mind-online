@@ -4,20 +4,16 @@ import './SectionStyles.css'
 class ManoSection extends React.Component {
 
   render() {
-
-    let cartasElems = this.buildCartasElems()
-    let cartasRestantesCount = this.countCartasRestantes()
-
     return (
       <div className="ManoSection">
-        <div> Mano: {cartasElems} </div>
-        { this.botonSiguienteNivel(cartasRestantesCount) }
-        { this.botonGameOver(this.props.vidas) }
+        { this.renderCartasElems() }
+        { this.renderBotonSiguienteNivel() }
+        { this.renderBotonGameOver() }
       </div>
     )
   }
 
-  buildCartasElems() {
+  renderCartasElems() {
     if (!this.props.cartas) {
       return []
     }
@@ -39,14 +35,15 @@ class ManoSection extends React.Component {
     return cartasCount
   }
 
-  botonSiguienteNivel(cantRestantes) {
-    return cantRestantes ? null : buttonEmiter(this.props.socket,
-      'SIGUIENTE NIVEL', 'subir_nivel')
+  renderBotonSiguienteNivel() {
+    let cartasRestantesCount = this.countCartasRestantes()
+    return (this.props.vidas && cartasRestantesCount) ? null :
+      buttonEmiter(this.props.socket, 'SIGUIENTE NIVEL', 'subir_nivel')
   }
 
-  botonGameOver(vidas) {
-    return vidas ? null : buttonEmiter(this.props.socket,
-      'GAME OVER', 'juego_quiero_terminar')
+  renderBotonGameOver() {
+    return this.props.vidas ? null :
+      buttonEmiter(this.props.socket, 'GAME OVER', 'juego_quiero_terminar')
   }
 
 }
@@ -61,7 +58,7 @@ class Carta extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="Carta">
         <div>{this.props.valor}</div>
         <div> {buttonEmiter(this.props.socket,
             'Poner', 'poner_carta', {'carta': this.props.valor})}

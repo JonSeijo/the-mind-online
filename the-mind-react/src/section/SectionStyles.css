@@ -4,27 +4,59 @@
   position: absolute;
 }
 
+/* ------------------------- */
+
 .InfoSection {
+  width: 100%;
   height: 20%;
-  background-color: #FFE8C6;
+  background-color: #A4B8C4;
 }
 
+.InfoSection_vidas {
+  display: inline-block;
+  text-align: left;
+  width: calc(50% - 20px);
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.InfoSection_cartas {
+  display: inline-block;
+  width: calc(50% - 20px);
+  text-align: right;
+  margin-right: 20px;
+  margin-top: 20px;
+
+}
+
+/* ------------------------- */
+
 .MesaSection {
-  height:40%;
-  background-color: #D39DC3;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  height: 40%;
+  background-color: #C8D3D5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .MesaValor {
   font-size: 72px;
 }
 
+/* ------------------------- */
+
 .ManoSection {
   height: 40%;
-  background-color: #989CC4;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  background-color: #FCFAFA;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Carta {
+  margin-left: 20px;
+  display: inline-block;
+  text-align: center;
+  justify-content: center;
+  max-width: 200px;
 }
