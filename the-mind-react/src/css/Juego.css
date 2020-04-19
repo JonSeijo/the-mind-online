@@ -52,15 +52,22 @@
 }
 
 .Carta {
-  font-size: 42px;
-  margin-left: 20px;
-  display: inline-block;
-  text-align: center;
+  background-color: #3f6299;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  width: 100px;
+  height: 150px;
+  align-items: center;
   justify-content: center;
-  max-width: 200px;
+  border-radius: 10px;
+}
+
+.CartaText {
+  font-size: 42px;
 }
 
 .Carta:hover {
+  background-color: #6498ed;
   cursor: pointer;
-  background-color: red;
 }

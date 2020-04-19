@@ -64,7 +64,9 @@ class Carta extends React.Component {
           event.preventDefault();
           this.props.socket.emit('poner_carta', {'carta': this.props.valor});
         }}>
-        <div>{this.props.valor}</div>
+        <div className="CartaText">
+          {this.props.valor}
+        </div>
       </div>
     )
   }
