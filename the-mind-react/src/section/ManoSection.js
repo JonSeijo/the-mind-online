@@ -37,7 +37,7 @@ class ManoSection extends React.Component {
 
   renderBotonSiguienteNivel() {
     let cartasRestantesCount = this.countCartasRestantes()
-    return (this.props.vidas && cartasRestantesCount) ? null :
+    return (!this.props.vidas || cartasRestantesCount) ? null :
       buttonEmiter(this.props.socket, 'SIGUIENTE NIVEL', 'subir_nivel')
   }
 
