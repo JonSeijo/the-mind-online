@@ -2,6 +2,7 @@ import React from 'react'
 import InfoSection from './section/InfoSection.js'
 import MesaSection from './section/MesaSection.js'
 import ManoSection from './section/ManoSection.js'
+import './css/Juego.css'
 
 class JuegoView extends React.Component {
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import './css/Intro.css'
 
 class IntroView extends React.Component {
 
@@ -30,16 +31,23 @@ class IntroView extends React.Component {
 
   render() {
     return (
-      <form onSubmit={event => this.handleSubmit(event)}>
-        <label>
-          Nombre: <br/>
-          <input type="text"
-            value={this.state.name}
-            onChange={event => this.handleChange(event)} />
-        </label>
+      <div className="IntroWrapper">
 
-        <input type="submit" value="Entrar" />
-      </form>
+        <div className="IntroTitle">The Mind</div>
+
+        <div className="IntroContent">
+          <form onSubmit={event => this.handleSubmit(event)}>
+            <div className="IntroInputTitle">
+              Nombre
+            </div>
+
+            <input type="text"
+              value={this.state.name}
+              onChange={event => this.handleChange(event)} />
+            <input type="submit" value="Entrar" />
+          </form>
+        </div>
+      </div>
     );
   }
 }

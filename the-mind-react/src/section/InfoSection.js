@@ -1,5 +1,5 @@
 import React from 'react'
-import './SectionStyles.css'
+import '../css/Juego.css'
 
 class InfoSection extends React.Component {
 
