@@ -2,25 +2,26 @@
 
 ## INSTALL:
 
-Para la guia asumo python3.7, podria funcionar con alguna version anterior pero no lo probe
+Para la guia asumo python3.7, podria funcionar con alguna version anterior pero no lo probe. Reemplazar 3.7 en los comandos por la version que corresponda
 
-Pararse en the-mind-online
+Instalar los headers de python3.7
+```sudo apt-get install python3.7-dev```
 
 Instalar venv para py3.7
 ```sudo apt-get install python3.7-venv```
 
+Pararse en the-mind-online
+```cd the-mind-online```
+
 Creamos un entorno virtual donde vamos a instalar las librerias de python:
-
 ```python3.7 -m venv the-mind-venv```
-
 
 Activamos el entorno virutal:
 ```source the-mind-venv/bin/activate```
 
 Para saber si esta andando, deberia aparecer "(the-mind-venv)" a la izquierda del prompt.
 
-
-Instalamos las librerias necesarias (importante, el venv tiene que estar activado!)
+Nos movemos a the-mind e instalamos las librerias necesarias (importante, el venv tiene que estar activado!)
 ```pip install -r requirements.txt```
 
 
