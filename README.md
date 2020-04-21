@@ -2,7 +2,13 @@
 
 ## INSTALL:
 
+Para la guia asumo python3.7, podria funcionar con alguna version anterior pero no lo probe
+
 Pararse en the-mind-online
+
+Instalar venv para py3.7
+```sudo apt-get install python3.7-venv```
+
 Creamos un entorno virtual donde vamos a instalar las librerias de python:
 
 ```python3.7 -m venv the-mind-venv```
