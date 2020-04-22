@@ -5,7 +5,8 @@ import LobbyView from './LobbyView.js';
 import JuegoView from './JuegoView.js';
 import './App.css';
 
-const socket = io('http://localhost:5000')
+const socket = io("https://167.71.177.31:5000")
+// const socket = io()
 
 class App extends React.Component {
 

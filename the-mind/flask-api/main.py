@@ -8,7 +8,7 @@ from model.juego import Juego
 from model.lobby import Lobby
 
 app = Flask("__main__")
-socketio = SocketIO(app, cors_allowed_origins='http://localhost:3000')
+socketio = SocketIO(app)
 ROOMS = {}
 
 info_conexiones = {}
@@ -110,6 +110,6 @@ class TheMindApi():
 
 
 if __name__ == "__main__":
+# def app():
 	themind = TheMindApi()
-	socketio.run(app, port=5000, debug=True)
-
+	socketio.run(app, host='0.0.0.0', port=5000, debug=True)
