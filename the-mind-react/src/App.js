@@ -5,8 +5,10 @@ import LobbyView from './LobbyView.js';
 import JuegoView from './JuegoView.js';
 import './App.css';
 
-const socket = io("https://167.71.177.31:5000")
 // const socket = io()
+// const socket = io("http://167.71.177.31:5000")
+//const socket = io("http://167.71.177.31")
+const socket = io("http://jonseijo.com")
 
 class App extends React.Component {
 

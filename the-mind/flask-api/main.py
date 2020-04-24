@@ -7,9 +7,16 @@ from flask_socketio import SocketIO, join_room, emit, send
 from model.juego import Juego
 from model.lobby import Lobby
 
+class TheMindApi():
+        def __init__(self) -> None:
+                self.juego = None
+                self.lobby = Lobby()
+
 app = Flask("__main__")
-socketio = SocketIO(app)
+#socketio = SocketIO(app)
+socketio = SocketIO(app, engineio_logger=True,cors_allowed_origins=['http://jonseijo.com', 'http://www.jonseijo.com'],  async_mode="gevent")
 ROOMS = {}
+themind = TheMindApi()
 
 info_conexiones = {}
 
@@ -31,9 +38,13 @@ def reset_debug():
 
 
 @socketio.on('conectar')
-def on_connect(param):
-	print("Alguien se conecto!")
+def on_connectar(param):
 	emit('conectar_response', {'status': 'OK'})
+
+@socketio.on('connect')
+def on_connect():
+        print("~~~~~~~~~~~~~~~~CONECTE THE MIND")
+        emit('conectar_response', {'status': 'OK'})
 
 
 @socketio.on('disconnect')
@@ -103,13 +114,7 @@ def on_juego_estado():
 	emit('juego_update', themind.juego.estado())
 
 
-class TheMindApi():
-	def __init__(self) -> None:
-		self.juego = None
-		self.lobby = Lobby()
-
-
 if __name__ == "__main__":
-# def app():
 	themind = TheMindApi()
-	socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+	print("~~~~~~~~~~~~~~~~EMPEZE THE MIND")
+	socketio.run(app, host='127.0.0.1', port=5000, debug=True)
