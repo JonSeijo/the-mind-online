@@ -1,3 +1,2 @@
 #!/bin/bash
-
-python -m flask-api.main
+gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 -b 0.0.0.0:5000 flask-api.main:app
