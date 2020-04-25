@@ -14,7 +14,15 @@ class TheMindApi():
 
 app = Flask("__main__")
 #socketio = SocketIO(app)
-socketio = SocketIO(app, engineio_logger=True,cors_allowed_origins=['https://jonseijo.com', 'https://www.jonseijo.com'],  async_mode="gevent")
+socketio = SocketIO(app,
+	engineio_logger=True,
+	cors_allowed_origins=[
+		'http://localhost:3000',
+		'https://jonseijo.com',
+		'https://www.jonseijo.com'],
+	async_mode="gevent"
+)
+
 ROOMS = {}
 themind = TheMindApi()
 

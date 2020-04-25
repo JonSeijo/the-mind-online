@@ -5,7 +5,10 @@ import LobbyView from './LobbyView.js';
 import JuegoView from './JuegoView.js';
 import './App.css';
 
-const socket = io("https://jonseijo.com")
+
+const url = process.env.NODE_ENV === "production"
+  ? "https://jonseijo.com" : "http://localhost:5000"
+const socket = io(url)
 
 class App extends React.Component {
 
