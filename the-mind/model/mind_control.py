@@ -23,28 +23,41 @@ class MindControl():
 		if jugador in self._jugadores():
 			raise JugadorExistenteException()
 
+		if lobby_nombre not in self._lobbies():
+			raise LobbyInexistenteException()
+
 		lobby = self._lobbies_por_nombre[lobby_nombre]
 		self._lobby_de[jugador] = lobby
 		lobby.agregar_jugador(jugador)
 
 
 	def estado_lobby(self, lobby: str) -> Dict[str, Any]:
+		if lobby not in self._lobbies():
+			raise LobbyInexistenteException()
+
 		return self._lobbies_por_nombre[lobby].estado()
 
 	def desconectar_jugador(self, jugador: str) -> None:
 		if jugador not in self._jugadores():
 			raise JugadorInexistenteException()
 
-		self._lobby_de[jugador].remover_jugador(jugador)
+		lobby = self._lobby_de.pop(jugador)
+		lobby.remover_jugador(jugador)
 
 	def _jugadores(self) -> Set[str]:
 		return self._lobby_de.keys()
+
+	def _lobbies(self) -> Set[str]:
+		return self._lobbies_por_nombre.keys()
 
 
 class LobbyExistenteException(Exception):
 	def __init__(self, msg: str ='El lobby ya está completo') -> None:
 		super().__init__(msg)
 
+class LobbyInexistenteException(Exception):
+	def __init__(self, msg: str ='El lobby no existe') -> None:
+		super().__init__(msg)
 
 class JugadorExistenteException(Exception):
 	def __init__(self, msg: str ='El jugador ya existe en The Mind') -> None:

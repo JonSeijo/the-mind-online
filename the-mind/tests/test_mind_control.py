@@ -6,6 +6,7 @@ from model.lobby import LobbyCompletoException
 from model.mind_control import (
 	MindControl,
 	LobbyExistenteException,
+	LobbyInexistenteException,
 	JugadorExistenteException,
 	JugadorInexistenteException
 )
@@ -63,3 +64,23 @@ class MindControlTest(unittest.TestCase):
 		self.assertRaises(JugadorInexistenteException,
 			mind.desconectar_jugador, 'Articuno'
 		)
+
+	def test_no_puedo_agregar_jugador_a_lobby_inexistente(self) -> None:
+		mind = MindControl()
+		self.assertRaises(LobbyInexistenteException,
+			mind.agregar_jugador, 'Articuno', 'Kanto'
+		)
+
+	def test_puedo_agregar_jugador_preexistente_si_desconecto_previamente(self) -> None:
+		mind = MindControl()
+		mind.agregar_lobby('Kanto')
+		mind.agregar_jugador('Articuno', 'Kanto')
+		mind.desconectar_jugador('Articuno')
+		mind.agregar_jugador('Articuno', 'Kanto')
+		self.assertEqual({'jugadores': ['Articuno']}, mind.estado_lobby('Kanto'))
+
+
+	def test_estado_de_lobby_inexistente_da_error(self) -> None:
+		mind = MindControl()
+		self.assertRaises(LobbyInexistenteException,
+			mind.estado_lobby, 'Kanto')
