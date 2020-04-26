@@ -5,7 +5,8 @@ import unittest
 from model.lobby import (
 	Lobby,
 	JugadorExistenteException,
-	JugadorInexistenteException
+	JugadorInexistenteException,
+	LobbyCompletoException
 )
 
 class LobbyTest(unittest.TestCase):
@@ -53,3 +54,14 @@ class LobbyTest(unittest.TestCase):
 
 		lobby.reset()
 		self.assertEqual({'jugadores': []}, lobby.estado())
+
+	def test_lobby_tiene_limite_de_jugadores(self) -> None:
+		lobby = Lobby()
+		lobby.agregar_jugador('Articuno')
+		lobby.agregar_jugador('Zapdos')
+		lobby.agregar_jugador('Moltres')
+		lobby.agregar_jugador('Mewtwo')
+
+		self.assertRaises(LobbyCompletoException,
+			lobby.agregar_jugador, 'Magikarp')
+
