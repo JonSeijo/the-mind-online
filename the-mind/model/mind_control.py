@@ -12,7 +12,7 @@ class MindControl():
 	def __init__(self) -> None:
 		self._lobby_de : Dict[str, str] = {}
 		self._lobbies_por_lid : Dict[str, Lobby] = {}
-		self._juego_por_lid : Dict[str, Juego] = {}
+		self._juegos_por_lid : Dict[str, Juego] = {}
 
 	def agregar_lobby(self, lobby_id: str) -> Lobby:
 		if lobby_id in self._lobbies_por_lid:
@@ -36,14 +36,17 @@ class MindControl():
 		self._assertJuegoNoEstaEnCurso(lobby_id)
 
 		juego = Juego.iniciar(jugadores=lobby.jugadores())
-		self._juego_por_lid[lobby_id] = juego
+		self._juegos_por_lid[lobby_id] = juego
 
+	def subir_nivel_en(self, lobby_id: str, force: bool = False) -> None:
+		juego = self._juego_por_lid(lobby_id)
+		juego.subir_nivel(force)
 
 	def estado_lobby(self, lobby_id: str) -> Dict[str, Any]:
 		return self._lobby_por_lid(lobby_id).estado()
 
 	def estado_juego(self, lobby_id: str) -> Dict[str, Any]:
-		return self._juego_por_lid[lobby_id].estado()
+		return self._juego_por_lid(lobby_id).estado()
 
 	def desconectar_jugador(self, jugador: str) -> None:
 		self._assertJugadorExistente(jugador)
@@ -52,10 +55,9 @@ class MindControl():
 		lobby = self._lobbies_por_lid[lobby_id]
 		lobby.remover_jugador(jugador)
 
-		if lobby_id in self._juego_por_lid:
-			juego = self._juego_por_lid[lobby_id]
+		if lobby_id in self._juegos_por_lid:
+			juego = self._juego_por_lid(lobby_id)
 			juego.terminar()
-
 
 	def _jugadores(self) -> Set[str]:
 		return self._lobby_de.keys()
@@ -67,10 +69,18 @@ class MindControl():
 		self._assertLobbyExistente(lobby_id)
 		return self._lobbies_por_lid[lobby_id]
 
+	def _juego_por_lid(self, lobby_id: str) -> None:
+		self._assertLobbyExistente(lobby_id)
+		self._assertJuegoExistente(lobby_id)
+		return self._juegos_por_lid[lobby_id]
 
 	def _assertLobbyExistente(self, lobby_id: str) -> None:
 		if lobby_id not in self._lobbies():
 			raise LobbyInexistenteException()
+
+	def _assertJuegoExistente(self, lobby_id: str) -> None:
+		if lobby_id not in self._juegos_por_lid:
+			raise JuegoInexistenteException()
 
 	def _assertJugadorExistente(self, jugador: str) -> None:
 		if jugador not in self._jugadores():
@@ -85,8 +95,8 @@ class MindControl():
 			raise LobbyIncompletoException()
 
 	def _assertJuegoNoEstaEnCurso(self, lobby_id: str) -> None:
-		if lobby_id in self._juego_por_lid:
-			juego = self._juego_por_lid[lobby_id]
+		if lobby_id in self._juegos_por_lid:
+			juego = self._juegos_por_lid[lobby_id]
 			if not juego.terminado():
 				raise JuegoEnCursoException()
 

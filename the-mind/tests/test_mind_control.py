@@ -124,3 +124,20 @@ class MindControlTest(unittest.TestCase):
 		self.assertFalse(mind.estado_juego('Kanto')['terminado'])
 		mind.desconectar_jugador('Articuno')
 		self.assertTrue(mind.estado_juego('Kanto')['terminado'])
+
+
+	def test_puedo_subir_de_nivel_correctamente(self) -> None:
+		mind = MindControl()
+		mind.agregar_lobby('Kanto')
+		mind.agregar_jugador('Articuno', 'Kanto')
+		mind.agregar_jugador('Zapdos', 'Kanto')
+		mind.iniciar_juego_en('Kanto')
+
+		self.assertEqual(1, mind.estado_juego('Kanto')['nivel'])
+		mind.subir_nivel_en('Kanto', force=True)
+		self.assertEqual(2, mind.estado_juego('Kanto')['nivel'])
+
+		self.assertRaises(
+			JuegoEnCursoException,
+			mind.subir_nivel_en, 'Kanto'
+		)

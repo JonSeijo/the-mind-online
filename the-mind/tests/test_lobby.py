@@ -8,7 +8,7 @@ from model.lobby import Lobby
 
 class LobbyTest(unittest.TestCase):
 
-	def test_lobby_Agrega_jugadores_correctamente(self) -> None:
+	def test_lobby_agrega_jugadores_correctamente(self) -> None:
 		lobby = Lobby()
 		lobby.agregar_jugador('Articuno')
 		self.assertIn('Articuno', lobby.jugadores())
