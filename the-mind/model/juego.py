@@ -3,6 +3,8 @@
 import random
 from typing import Any, Dict, List
 
+from model.exceptions import *
+
 class Juego(object):
 
 	# Usar Juego.iniciar()
@@ -150,24 +152,3 @@ def cartas_repartidas(jugadores: List[str], nivel: int) -> Dict[str, List[int]]:
 		cartas[jug] = mazo[inicio:fin]
 
 	return cartas
-
-
-
-class JugadorExistenteException(Exception):
-	pass
-
-
-class JugadorInexistenteException(Exception):
-	pass
-
-
-class CartaInexistenteException(Exception):
-	pass
-
-
-class JuegoEnCursoException(Exception):
-	pass
-
-
-class JuegoTerminadoException(Exception):
-	pass

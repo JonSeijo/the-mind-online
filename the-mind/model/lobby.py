@@ -2,6 +2,7 @@
 
 from typing import Any, Dict, List
 
+from model.exceptions import *
 
 class Lobby():
 
@@ -36,15 +37,3 @@ class Lobby():
 	def reset(self) -> None:
 		self._jugadores = []
 
-class JugadorExistenteException(Exception):
-	def __init__(self, msg: str ='El jugador ya está en el lobby') -> None:
-		super().__init__(msg)
-
-
-class LobbyCompletoException(Exception):
-	def __init__(self, msg: str ='El lobby ya está completo') -> None:
-		super().__init__(msg)
-
-
-class JugadorInexistenteException(Exception):
-	pass

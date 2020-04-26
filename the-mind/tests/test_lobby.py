@@ -2,12 +2,9 @@
 
 import unittest
 
-from model.lobby import (
-	Lobby,
-	JugadorExistenteException,
-	JugadorInexistenteException,
-	LobbyCompletoException
-)
+from model.exceptions import *
+from model.lobby import Lobby
+
 
 class LobbyTest(unittest.TestCase):
 

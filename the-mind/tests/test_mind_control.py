@@ -2,16 +2,10 @@
 
 import unittest
 
+from model.exceptions import *
 from model.lobby import LobbyCompletoException
-from model.mind_control import (
-	MindControl,
-	LobbyExistenteException,
-	LobbyIncompletoException,
-	LobbyInexistenteException,
-	JuegoEnCursoException,
-	JugadorExistenteException,
-	JugadorInexistenteException
-)
+from model.mind_control import MindControl
+
 
 class MindControlTest(unittest.TestCase):
 
@@ -87,7 +81,6 @@ class MindControlTest(unittest.TestCase):
 		self.assertRaises(LobbyInexistenteException,
 			mind.estado_lobby, 'Kanto')
 
-
 	def test_iniciar_juego_en_lobby(self) -> None:
 		mind = MindControl()
 		mind.agregar_lobby('Kanto')
@@ -95,7 +88,6 @@ class MindControlTest(unittest.TestCase):
 		mind.agregar_jugador('Zapdos', 'Kanto')
 		mind.iniciar_juego_en('Kanto')
 		self.assertFalse(mind.estado_juego('Kanto')['terminado'])
-
 
 	def test_no_puedo_iniciar_un_juego_ya_iniciado(self) -> None:
 		mind = MindControl()

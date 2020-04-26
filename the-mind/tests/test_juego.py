@@ -4,14 +4,8 @@ import unittest
 
 from typing import Any, Dict, List, Generic, Optional, TypeVar
 
-from model.juego import (
-	Juego,
-	JugadorExistenteException,
-	JugadorInexistenteException,
-	CartaInexistenteException,
-	JuegoEnCursoException,
-	JuegoTerminadoException
-)
+from model.exceptions import *
+from model.juego import Juego
 
 class JuegoTest(unittest.TestCase):
 
