@@ -113,3 +113,14 @@ class MindControlTest(unittest.TestCase):
 		self.assertRaises(LobbyIncompletoException,
 			mind.iniciar_juego_en, 'Kanto'
 		)
+
+	def test_desconectar_jugador_termina_el_juego(self) -> None:
+		mind = MindControl()
+		mind.agregar_lobby('Kanto')
+		mind.agregar_jugador('Articuno', 'Kanto')
+		mind.agregar_jugador('Zapdos', 'Kanto')
+		mind.iniciar_juego_en('Kanto')
+
+		self.assertFalse(mind.estado_juego('Kanto')['terminado'])
+		mind.desconectar_jugador('Articuno')
+		self.assertTrue(mind.estado_juego('Kanto')['terminado'])
