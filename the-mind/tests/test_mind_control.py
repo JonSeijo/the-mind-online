@@ -50,3 +50,9 @@ class MindControlTest(unittest.TestCase):
 			mind.agregar_jugador, 'Articuno', 'Johto'
 		)
 
+	def test_jugador_se_desconecta_correctamente(self) -> None:
+		mind = MindControl()
+		mind.agregar_lobby('Kanto')
+		mind.agregar_jugador('Articuno', 'Kanto')
+		mind.desconectar_jugador('Articuno')
+		self.assertEqual({'jugadores': []}, mind.estado_lobby('Kanto'))
