@@ -42,7 +42,8 @@ class Juego(object):
 			nivel=nivel,
 			vidas=3,
 			cartas_por_jugador=cartas_por_jugador,
-			premios_vidas=[3, 6, 9]
+			premios_vidas=[3, 6, 9],
+			terminado=False
 		)
 
 

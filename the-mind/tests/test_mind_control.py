@@ -7,6 +7,7 @@ from model.mind_control import (
 	MindControl,
 	LobbyExistenteException,
 	LobbyInexistenteException,
+	JuegoEnCursoException,
 	JugadorExistenteException,
 	JugadorInexistenteException
 )
@@ -84,3 +85,24 @@ class MindControlTest(unittest.TestCase):
 		mind = MindControl()
 		self.assertRaises(LobbyInexistenteException,
 			mind.estado_lobby, 'Kanto')
+
+
+	def test_iniciar_juego_en_lobby(self) -> None:
+		mind = MindControl()
+		mind.agregar_lobby('Kanto')
+		mind.agregar_jugador('Articuno', 'Kanto')
+		mind.agregar_jugador('Zapdos', 'Kanto')
+		mind.iniciar_juego_en('Kanto')
+		self.assertFalse(mind.estado_juego('Kanto')['terminado'])
+
+
+	def test_no_puedo_iniciar_un_juego_ya_iniciado(self) -> None:
+		mind = MindControl()
+		mind.agregar_lobby('Kanto')
+		mind.agregar_jugador('Articuno', 'Kanto')
+		mind.agregar_jugador('Zapdos', 'Kanto')
+		mind.iniciar_juego_en('Kanto')
+
+		self.assertRaises(JuegoEnCursoException,
+			mind.iniciar_juego_en, 'Kanto'
+		)
