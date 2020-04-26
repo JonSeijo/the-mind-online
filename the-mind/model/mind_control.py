@@ -42,6 +42,11 @@ class MindControl():
 		juego = self._juego_por_lid(lobby_id)
 		juego.subir_nivel(force)
 
+	def colocar_carta(self, lobby_id: str, jugador: str, carta: int) -> None:
+		juego = self._juego_por_lid(lobby_id)
+		juego.poner_carta(jugador, carta)
+
+
 	def estado_lobby(self, lobby_id: str) -> Dict[str, Any]:
 		return self._lobby_por_lid(lobby_id).estado()
 

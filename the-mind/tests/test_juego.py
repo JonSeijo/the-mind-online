@@ -220,10 +220,8 @@ def crear_juego_test(
 def juego_default() -> Juego:
 	return crear_juego_test()
 
-
 def juego_sin_cartas() -> Juego:
 	return crear_juego_test(cartas_por_jugador={})
-
 
 def juego_sin_vidas() -> Juego:
 	return crear_juego_test(vidas=0)
