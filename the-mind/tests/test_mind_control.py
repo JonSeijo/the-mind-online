@@ -141,3 +141,12 @@ class MindControlTest(unittest.TestCase):
 			JuegoEnCursoException,
 			mind.subir_nivel_en, 'Kanto'
 		)
+
+	def test_estado_juego_dado_jugador(self) -> None:
+		mind = MindControl()
+		mind.agregar_lobby('Kanto')
+		mind.agregar_jugador('Articuno', 'Kanto')
+		mind.agregar_jugador('Zapdos', 'Kanto')
+		mind.iniciar_juego_en('Kanto')
+		self.assertFalse(mind.estado_juego_por_jug('Zapdos')['terminado'])
+

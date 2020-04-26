@@ -48,6 +48,10 @@ class MindControl():
 	def estado_juego(self, lobby_id: str) -> Dict[str, Any]:
 		return self._juego_por_lid(lobby_id).estado()
 
+	def estado_juego_por_jug(self, jugador: str) -> Dict[str, Any]:
+		lobby_id = self._lobby_de[jugador]
+		return self.estado_juego(lobby_id)
+
 	def desconectar_jugador(self, jugador: str) -> None:
 		self._assertJugadorExistente(jugador)
 
