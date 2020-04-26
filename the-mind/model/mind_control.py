@@ -33,7 +33,13 @@ class MindControl():
 		lobby.agregar_jugador(jugador)
 
 	def iniciar_juego_en(self, lobby_id: str) -> None:
+		if lobby_id not in self._lobbies():
+			raise LobbyInexistenteException()
+
 		lobby = self._lobbies_por_lid[lobby_id]
+
+		if len(lobby.jugadores()) < 2:
+			raise LobbyIncompletoException()
 
 		if lobby_id in self._juego_por_lid:
 			juego = self._juego_por_lid[lobby_id]
@@ -69,11 +75,15 @@ class MindControl():
 
 
 class LobbyExistenteException(Exception):
-	def __init__(self, msg: str ='El lobby ya está completo') -> None:
+	def __init__(self, msg: str ='El lobby ya existe') -> None:
 		super().__init__(msg)
 
 class LobbyInexistenteException(Exception):
 	def __init__(self, msg: str ='El lobby no existe') -> None:
+		super().__init__(msg)
+
+class LobbyIncompletoException(Exception):
+	def __init__(self, msg: str ='El lobby está incompleto') -> None:
 		super().__init__(msg)
 
 class JugadorExistenteException(Exception):

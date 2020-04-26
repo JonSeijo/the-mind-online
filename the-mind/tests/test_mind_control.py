@@ -6,6 +6,7 @@ from model.lobby import LobbyCompletoException
 from model.mind_control import (
 	MindControl,
 	LobbyExistenteException,
+	LobbyIncompletoException,
 	LobbyInexistenteException,
 	JuegoEnCursoException,
 	JugadorExistenteException,
@@ -104,5 +105,19 @@ class MindControlTest(unittest.TestCase):
 		mind.iniciar_juego_en('Kanto')
 
 		self.assertRaises(JuegoEnCursoException,
+			mind.iniciar_juego_en, 'Kanto'
+		)
+
+	def test_no_puedo_iniciar_juego_en_lobby_inexistente(self) -> None:
+		mind = MindControl()
+		self.assertRaises(LobbyInexistenteException,
+			mind.iniciar_juego_en, 'Kanto'
+		)
+
+	def test_no_puedo_iniciar_juego_en_lobby_incompleto(self) -> None:
+		mind = MindControl()
+		mind.agregar_lobby('Kanto')
+		mind.agregar_jugador('Articuno', 'Kanto')
+		self.assertRaises(LobbyIncompletoException,
 			mind.iniciar_juego_en, 'Kanto'
 		)

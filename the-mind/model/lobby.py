@@ -37,14 +37,12 @@ class Lobby():
 		self._jugadores = []
 
 class JugadorExistenteException(Exception):
-	def __init__(self, msg: str ='El jugador ya está en el lobby'
-	) -> None:
+	def __init__(self, msg: str ='El jugador ya está en el lobby') -> None:
 		super().__init__(msg)
 
 
 class LobbyCompletoException(Exception):
-	def __init__(self, msg: str ='El lobby ya está completo'
-	) -> None:
+	def __init__(self, msg: str ='El lobby ya está completo') -> None:
 		super().__init__(msg)
 
 
