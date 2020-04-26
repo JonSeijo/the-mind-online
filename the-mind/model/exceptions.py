@@ -30,6 +30,10 @@ class JuegoTerminadoException(Exception):
 	def __init__(self, msg: str ='El juego ya está terminado') -> None:
 		super().__init__(msg)
 
+class JuegoInexistenteException(Exception):
+	def __init__(self, msg: str ='No existe juego') -> None:
+		super().__init__(msg)
+
 class CartaInexistenteException(Exception):
 	def __init__(self, msg: str ='La carta es inexistente') -> None:
 		super().__init__(msg)

@@ -1,6 +1,6 @@
 # pyre-strict
 
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List, KeysView
 
 from model.exceptions import *
 from model.lobby import Lobby
@@ -68,17 +68,17 @@ class MindControl():
 			juego = self._juego_por_lid(lobby_id)
 			juego.terminar()
 
-	def _jugadores(self) -> Set[str]:
+	def _jugadores(self) -> KeysView[str]:
 		return self._lobby_de.keys()
 
-	def _lobbies(self) -> Set[str]:
+	def _lobbies(self) -> KeysView[str]:
 		return self._lobbies_por_lid.keys()
 
-	def _lobby_por_lid(self, lobby_id: str) -> None:
+	def _lobby_por_lid(self, lobby_id: str) -> Lobby:
 		self._assertLobbyExistente(lobby_id)
 		return self._lobbies_por_lid[lobby_id]
 
-	def _juego_por_lid(self, lobby_id: str) -> None:
+	def _juego_por_lid(self, lobby_id: str) -> Juego:
 		self._assertLobbyExistente(lobby_id)
 		self._assertJuegoExistente(lobby_id)
 		return self._juegos_por_lid[lobby_id]
