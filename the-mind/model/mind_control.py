@@ -24,6 +24,9 @@ class MindControl():
 
 	def agregar_jugador(self, jugador: str, lobby_id: str) -> None:
 		self._assertJugadorInexistente(jugador)
+		if lobby_id not in self._lobbies_por_lid:
+			self.agregar_lobby(lobby_id)
+
 		lobby = self._lobby_por_lid(lobby_id)
 
 		self._lobby_de[jugador] = lobby_id
@@ -69,9 +72,11 @@ class MindControl():
 			juego.terminar()
 
 		if len(lobby.jugadores()) == 0:
-			self._juegos_por_lid.pop(lobby_id, None)
-			self._lobbies_por_lid.pop(lobby_id)
+			self._eliminar_lobby(lobby_id)
 
+	def _eliminar_lobby(self, lobby_id: str) -> None:
+		self._juegos_por_lid.pop(lobby_id, None)
+		self._lobbies_por_lid.pop(lobby_id)
 
 	def _jugadores(self) -> KeysView[str]:
 		return self._lobby_de.keys()

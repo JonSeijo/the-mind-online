@@ -55,11 +55,10 @@ class MindControlTest(unittest.TestCase):
 			mind.desconectar_jugador, 'Articuno'
 		)
 
-	def test_no_puedo_agregar_jugador_a_lobby_inexistente(self) -> None:
+	def test_agregar_jugador_a_lobby_inexistente_lo_crea(self) -> None:
 		mind = MindControl()
-		self.assertRaises(LobbyInexistenteException,
-			mind.agregar_jugador, 'Articuno', 'Kanto'
-		)
+		mind.agregar_jugador('Articuno', 'Kanto')
+		self.assertEqual({'jugadores': ['Articuno']}, mind.estado_lobby('Kanto'))
 
 	def test_puedo_agregar_jugador_preexistente_si_desconecto_previamente(self) -> None:
 		mind = mind_con_un_jugador()
@@ -144,14 +143,12 @@ class MindControlTest(unittest.TestCase):
 
 def mind_con_un_jugador() -> MindControl:
 	mind = MindControl()
-	mind.agregar_lobby('Kanto')
 	mind.agregar_jugador('Articuno', 'Kanto')
 	return mind
 
 
 def mind_juego_iniciado() -> MindControl:
 	mind = MindControl()
-	mind.agregar_lobby('Kanto')
 	mind.agregar_jugador('Articuno', 'Kanto')
 	mind.agregar_jugador('Zapdos', 'Kanto')
 	mind.iniciar_juego_en('Kanto')
