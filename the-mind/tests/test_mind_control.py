@@ -45,9 +45,9 @@ class MindControlTest(unittest.TestCase):
 		)
 
 	def test_jugador_se_desconecta_correctamente(self) -> None:
-		mind = mind_con_un_jugador()
+		mind = mind_juego_iniciado()
 		mind.desconectar_jugador('Articuno')
-		self.assertEqual({'jugadores': []}, mind.estado_lobby('Kanto'))
+		self.assertEqual({'jugadores': ['Zapdos']}, mind.estado_lobby('Kanto'))
 
 	def test_no_puedo_desconectar_un_jugador_inexistente(self) -> None:
 		mind = MindControl()
@@ -64,6 +64,7 @@ class MindControlTest(unittest.TestCase):
 	def test_puedo_agregar_jugador_preexistente_si_desconecto_previamente(self) -> None:
 		mind = mind_con_un_jugador()
 		mind.desconectar_jugador('Articuno')
+		mind.agregar_lobby('Kanto')
 		mind.agregar_jugador('Articuno', 'Kanto')
 		self.assertEqual({'jugadores': ['Articuno']}, mind.estado_lobby('Kanto'))
 
@@ -103,6 +104,14 @@ class MindControlTest(unittest.TestCase):
 		mind.desconectar_jugador('Articuno')
 		self.assertTrue(mind.estado_juego('Kanto')['terminado'])
 
+	def test_desconectar_el_ultimo_jugador_elimina_el_lobby(self) -> None:
+		mind = mind_juego_iniciado()
+		mind.desconectar_jugador('Articuno')
+		self.assertTrue(mind.estado_juego('Kanto')['terminado'])
+		mind.desconectar_jugador('Zapdos')
+		self.assertRaises(LobbyInexistenteException,
+			mind.estado_lobby, 'Kanto'
+		)
 
 	def test_puedo_subir_de_nivel_correctamente(self) -> None:
 		mind = mind_juego_iniciado()

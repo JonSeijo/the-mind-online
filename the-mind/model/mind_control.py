@@ -68,6 +68,11 @@ class MindControl():
 			juego = self._juego_por_lid(lobby_id)
 			juego.terminar()
 
+		if len(lobby.jugadores()) == 0:
+			self._juegos_por_lid.pop(lobby_id, None)
+			self._lobbies_por_lid.pop(lobby_id)
+
+
 	def _jugadores(self) -> KeysView[str]:
 		return self._lobby_de.keys()
 

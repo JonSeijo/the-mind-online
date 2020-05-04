@@ -17,7 +17,6 @@ class Lobby():
 		if len(self._jugadores) >= self._capacidad:
 			raise LobbyCompletoException()
 
-
 		self._jugadores.append(jugador)
 
 	def remover_jugador(self, jugador: str) -> None:
