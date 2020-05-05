@@ -16,7 +16,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       view: 'IntroView',
-      name: ''
+      player_name: '',
+      lobby_name: '',
     };
   }
 
@@ -48,7 +49,7 @@ class App extends React.Component {
       return (
         <LobbyView
           app={this}
-          name={this.state.name}
+          name={this.state.player_name}
           socket={socket}/> );
     }
 
@@ -56,7 +57,7 @@ class App extends React.Component {
       return (
         <JuegoView
           app={this}
-          name={this.state.name}
+          name={this.state.player_name}
           socket={socket}/>);
     }
 

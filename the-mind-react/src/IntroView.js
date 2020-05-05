@@ -33,7 +33,8 @@ class IntroView extends React.Component {
 
       this.props.app.setState({
         view: 'LobbyView',
-        name: player_name
+        player_name: player_name,
+        lobby_name: lobby_name
       });
     }
   }

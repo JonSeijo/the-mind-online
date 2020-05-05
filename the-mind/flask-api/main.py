@@ -2,7 +2,7 @@ import time
 
 from flask import Flask, render_template, request
 # pyre-ignore
-from flask_socketio import SocketIO, join_room, emit, send
+from flask_socketio import SocketIO, join_room, leave_room, emit, send
 
 from model.juego import Juego
 from model.lobby import Lobby
@@ -54,12 +54,15 @@ def on_connect():
 
 @socketio.on('disconnect')
 def on_disconnect():
-	name = player_name_conexiones.pop(request.sid, None)
-	print('--DESCONECTO: ' + str(name))
+	player_name = player_name_conexiones.pop(request.sid, None)
+	lobby_name = lobby_name_conexiones.pop(request.sid, None)
+	print('--DESCONECTO: ' + str(player_name))
 
-	lobby_stata = themind.desconectar_jugador(name)
-	socketio.emit('juego_terminado', lobby_stata)
-	socketio.emit('lobby_update', lobby_stata)
+	lobby_state = themind.desconectar_jugador(player_name)
+
+	leave_room(lobby_name)
+	socketio.emit('juego_terminado', lobby_state, room=lobby_name)
+	socketio.emit('lobby_update', lobby_state, room=lobby_name)
 
 
 @socketio.on('lobby_agregar_jugador')
@@ -67,6 +70,7 @@ def on_lobby_agregar_jugador(params):
 	try:
 		player_name = params['player_name']
 		lobby_name = params['lobby_name']
+		join_room(lobby_name)
 
 		themind.agregar_jugador(player_name, lobby_name)
 
@@ -75,17 +79,17 @@ def on_lobby_agregar_jugador(params):
 		player_name_conexiones[request.sid] = player_name
 		lobby_name_conexiones[request.sid] = lobby_name
 
-		socketio.emit('lobby_update', themind.estado_lobby(lobby_name))
+		socketio.emit('lobby_update', themind.estado_lobby(lobby_name), room=lobby_name)
 
 	except Exception as ex:
-		emit('lobby_update', {'error': str(ex)})
+		emit('lobby_update', {'error': str(ex)}, room=lobby_name)
 
 
 @socketio.on('juego_iniciar')
 def on_juego_iniciar():
 	lobby_name = lobby_name_conexiones[request.sid]
 	themind.iniciar_juego_en(lobby_name)
-	socketio.emit('juego_iniciado')
+	socketio.emit('juego_iniciado', room=lobby_name)
 
 
 @socketio.on('poner_carta')
@@ -98,21 +102,21 @@ def on_poner_carta(params):
 	carta = int(params['carta'])
 
 	themind.colocar_carta(lobby_name, player_name, carta)
-	socketio.emit('juego_update', themind.estado_juego(lobby_name))
+	socketio.emit('juego_update', themind.estado_juego(lobby_name), room=lobby_name)
 
 
 @socketio.on('subir_nivel')
 def on_subir_nivel():
 	lobby_name = lobby_name_conexiones[request.sid]
 	themind.subir_nivel_en(lobby_name)
-	socketio.emit('juego_update', themind.estado_juego(lobby_name))
+	socketio.emit('juego_update', themind.estado_juego(lobby_name), room=lobby_name)
 
 
 @socketio.on('juego_quiero_terminar')
 def on_juego_quiero_terminar():
 	lobby_name = lobby_name_conexiones[request.sid]
 	themind.terminar_juego(lobby_name)
-	socketio.emit('juego_terminado', themind.estado_lobby(lobby_name))
+	socketio.emit('juego_terminado', themind.estado_lobby(lobby_name), room=lobby_name)
 
 
 @socketio.on('lobby_estado')
