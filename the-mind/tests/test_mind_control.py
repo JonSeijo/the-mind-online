@@ -140,6 +140,18 @@ class MindControlTest(unittest.TestCase):
 			mind.colocar_carta, 'Kanto', 'Magikarp', 1
 		)
 
+	def test_desconectar_un_jugador_retorna_el_estado_lobby(self) -> None:
+		mind = mind_juego_iniciado()
+		estado_desc_articuno = mind.desconectar_jugador('Articuno')
+		self.assertEqual({'jugadores': ['Zapdos']}, estado_desc_articuno)
+		estado_desc_zapdos = mind.desconectar_jugador('Zapdos')
+		self.assertEqual({'jugadores': []}, estado_desc_zapdos)
+
+	def test_puedo_terminar_juego_forzosamente(self) -> None:
+		mind = mind_juego_iniciado()
+		mind.terminar_juego('Kanto')
+		self.assertTrue(mind.estado_juego('Kanto')['terminado'])
+
 
 def mind_con_un_jugador() -> MindControl:
 	mind = MindControl()

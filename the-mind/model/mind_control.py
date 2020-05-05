@@ -49,7 +49,6 @@ class MindControl():
 		juego = self._juego_por_lid(lobby_id)
 		juego.poner_carta(jugador, carta)
 
-
 	def estado_lobby(self, lobby_id: str) -> Dict[str, Any]:
 		return self._lobby_por_lid(lobby_id).estado()
 
@@ -60,7 +59,7 @@ class MindControl():
 		lobby_id = self._lobby_de[jugador]
 		return self.estado_juego(lobby_id)
 
-	def desconectar_jugador(self, jugador: str) -> None:
+	def desconectar_jugador(self, jugador: str) -> Dict[str, Any]:
 		self._assertJugadorExistente(jugador)
 
 		lobby_id = self._lobby_de.pop(jugador)
@@ -71,8 +70,16 @@ class MindControl():
 			juego = self._juego_por_lid(lobby_id)
 			juego.terminar()
 
+		estado_lobby_pre_eliminar = self.estado_lobby(lobby_id)
+
 		if len(lobby.jugadores()) == 0:
 			self._eliminar_lobby(lobby_id)
+
+		return estado_lobby_pre_eliminar
+
+	def terminar_juego(self, lobby_id: str) -> None:
+		juego = self._juego_por_lid(lobby_id)
+		juego.terminar()
 
 	def _eliminar_lobby(self, lobby_id: str) -> None:
 		self._juegos_por_lid.pop(lobby_id, None)
