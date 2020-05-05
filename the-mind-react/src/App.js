@@ -49,7 +49,8 @@ class App extends React.Component {
       return (
         <LobbyView
           app={this}
-          name={this.state.player_name}
+          player_name={this.state.player_name}
+          lobby_name={this.state.lobby_name}
           socket={socket}/> );
     }
 

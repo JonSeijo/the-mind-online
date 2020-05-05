@@ -15,6 +15,13 @@
   align-items: center;
 }
 
+.LobbyName {
+  width: 100%;
+  text-align: center;
+  background-color: #111a29;
+  font-size: 30px;
+}
+
 .LobbyJugadoresTitle {
   margin-top: 50px;
   font-size: 50px;
@@ -30,4 +37,11 @@
   height: 70%;
   align-items: center;
   justify-content: center;
+}
+
+.LobbyButton {
+  margin-top: 20px;
+  font-size: 18px;
+  width: 100px;
+  height: 40px;
 }

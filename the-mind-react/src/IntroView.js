@@ -1,4 +1,5 @@
 import React from 'react'
+import './css/Common.css'
 import './css/Intro.css'
 
 class IntroView extends React.Component {
@@ -64,7 +65,7 @@ class IntroView extends React.Component {
                 onChange={event => this.handleLobbyNameChange(event)} />
             </div>
 
-            <input className="IntroInputButton"
+            <input className="CommonButton"
               type="submit" value="Entrar" />
 
           </form>

@@ -1,4 +1,5 @@
 import React from 'react'
+import '../css/Common.css'
 import '../css/Juego.css'
 
 class ManoSection extends React.Component {
@@ -38,7 +39,7 @@ class ManoSection extends React.Component {
   renderBotonSiguienteNivel() {
     let cartasRestantesCount = this.countCartasRestantes()
     return (!this.props.vidas || cartasRestantesCount) ? null :
-      buttonEmiter(this.props.socket, 'SIGUIENTE NIVEL', 'subir_nivel')
+      buttonEmiter(this.props.socket, 'Siguiente nivel', 'subir_nivel')
   }
 
   renderBotonGameOver() {
@@ -74,10 +75,11 @@ class Carta extends React.Component {
 
 function buttonEmiter(socket, button_text, emit_msg) {
   return (
-    <button onClick={event => {
-      event.preventDefault();
-      socket.emit(emit_msg);
-     }}>
+    <button className="CommonButton"
+      onClick={event => {
+        event.preventDefault();
+        socket.emit(emit_msg);
+       }}>
       {button_text}
     </button>)
 }

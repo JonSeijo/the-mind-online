@@ -1,4 +1,5 @@
 import React from 'react'
+import './css/Common.css'
 import './css/Lobby.css'
 
 class LobbyView extends React.Component {
@@ -43,6 +44,7 @@ class LobbyView extends React.Component {
     return (
       <div className="LobbyWrapper">
         <div className="LobbyHeader">
+          <div className="LobbyName"> {this.props.lobby_name} </div>
           <div className="LobbyJugadoresTitle"> Jugadores </div>
           <div className="LobbyJugadores"> {jugadoresItems} </div>
         </div>
@@ -69,7 +71,9 @@ class BotonIniciarJuego extends React.Component {
 
   render() {
     return (
-      <button onClick={event => this.handleClick(event)}>
+      <button
+        className="CommonButton"
+        onClick={event => this.handleClick(event)}>
         Jugar!
       </button>
     );
