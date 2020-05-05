@@ -5,26 +5,35 @@ class IntroView extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {name: ''};
+    this.state = {
+      player_name: '',
+      lobby_name: ''
+    };
   }
 
-  handleChange(event) {
-    this.setState({name: event.target.value});
-  };
+  handlePlayerNameChange(event) {
+    this.setState({player_name: event.target.value});
+  }
+
+  handleLobbyNameChange(event) {
+    this.setState({lobby_name: event.target.value});
+  }
 
   handleSubmit(event) {
     event.preventDefault();
-    let name = this.state.name;
+    let player_name = this.state.player_name;
+    let lobby_name = this.state.lobby_name;
 
-    if (name) {
+    if (player_name && lobby_name) {
       this.props.socket.emit(
       'lobby_agregar_jugador', {
-        'name': name
+        'player_name': player_name,
+        'lobby_name': lobby_name,
       })
 
       this.props.app.setState({
         view: 'LobbyView',
-        name: name
+        name: player_name
       });
     }
   }
@@ -37,14 +46,26 @@ class IntroView extends React.Component {
 
         <div className="IntroContent">
           <form onSubmit={event => this.handleSubmit(event)}>
-            <div className="IntroInputTitle">
-              Nombre
+
+            <div className="IntroInputContainter">
+              <div className="IntroInputTitle"> Nombre </div>
+              <input className="IntroInputTextBox"
+                type="text"
+                value={this.state.player_name}
+                onChange={event => this.handlePlayerNameChange(event)} />
             </div>
 
-            <input type="text"
-              value={this.state.name}
-              onChange={event => this.handleChange(event)} />
-            <input type="submit" value="Entrar" />
+            <div className="IntroInputContainter">
+              <div className="IntroInputTitle"> Lobby </div>
+              <input className="IntroInputTextBox"
+                type="text"
+                value={this.state.lobby_name}
+                onChange={event => this.handleLobbyNameChange(event)} />
+            </div>
+
+            <input className="IntroInputButton"
+              type="submit" value="Entrar" />
+
           </form>
         </div>
       </div>

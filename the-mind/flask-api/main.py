@@ -13,7 +13,6 @@ class TheMindApi():
                 self.lobby = Lobby()
 
 app = Flask("__main__")
-#socketio = SocketIO(app)
 socketio = SocketIO(app,
 	engineio_logger=True,
 	cors_allowed_origins=[
@@ -70,10 +69,12 @@ def on_disconnect():
 @socketio.on('lobby_agregar_jugador')
 def on_lobby_agregar_jugador(params):
 	try:
-		name = params['name']
-		themind.lobby.agregar_jugador(name)
+		player_name = params['player_name']
+		lobby_name = params['lobby_name']
 
-		info_conexiones[request.sid] = name
+		themind.lobby.agregar_jugador(player_name)
+
+		info_conexiones[request.sid] = player_name
 
 		socketio.emit('lobby_update', themind.lobby.estado())
 

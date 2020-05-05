@@ -19,12 +19,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: right;
+}
+
+.IntroInputContainter {
+  display: block;
 }
 
 .IntroInputTitle {
   color: white;
-  display: flex;
-  justify-content: center;
+  display: inline-block;
+  margin-right: 20px;
   margin-bottom: 20px;
   font-size: 42px;
+}
+
+.IntroInputTextBox {
+  display: inline-block;
+  align-content: top;
+  font-size: 32px;
+  max-width: 250px;
+  text-align: center;
+}
+
+.IntroInputButton {
+  margin-top: 20px;
+  font-size: 18px;
+  width: 100px;
+  height: 40px;
 }
