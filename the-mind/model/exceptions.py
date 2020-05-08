@@ -37,3 +37,7 @@ class JuegoInexistenteException(Exception):
 class CartaInexistenteException(Exception):
 	def __init__(self, msg: str ='La carta es inexistente') -> None:
 		super().__init__(msg)
+
+class InvalidNameException(Exception):
+	def __init__(self, msg: str ='El nombre es invalido') -> None:
+		super().__init__(msg)

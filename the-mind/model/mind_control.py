@@ -18,6 +18,8 @@ class MindControl():
 		if lobby_id in self._lobbies_por_lid:
 			raise LobbyExistenteException()
 
+		self._assertValidName(lobby_id)
+
 		lobby = Lobby()
 		self._lobbies_por_lid[lobby_id] = lobby
 		return lobby
@@ -26,6 +28,8 @@ class MindControl():
 		self._assertJugadorInexistente(jugador)
 		if lobby_id not in self._lobbies_por_lid:
 			self.agregar_lobby(lobby_id)
+
+		self._assertValidName(jugador)
 
 		lobby = self._lobby_por_lid(lobby_id)
 
@@ -99,6 +103,10 @@ class MindControl():
 		self._assertLobbyExistente(lobby_id)
 		self._assertJuegoExistente(lobby_id)
 		return self._juegos_por_lid[lobby_id]
+
+	def _assertValidName(self, lobby_id: str) -> None:
+		if not lobby_id or len(lobby_id) >= 22:
+			raise InvalidNameException()
 
 	def _assertLobbyExistente(self, lobby_id: str) -> None:
 		if lobby_id not in self._lobbies():

@@ -13,11 +13,17 @@ class IntroView extends React.Component {
   }
 
   handlePlayerNameChange(event) {
-    this.setState({player_name: event.target.value});
+    let name = event.target.value
+    if (this.isValidName(name)) {
+      this.setState({player_name: name});
+    }
   }
 
   handleLobbyNameChange(event) {
-    this.setState({lobby_name: event.target.value});
+    let name = event.target.value
+    if (this.isValidName(name)) {
+      this.setState({lobby_name: name});
+    }
   }
 
   handleSubmit(event) {
@@ -73,6 +79,11 @@ class IntroView extends React.Component {
       </div>
     );
   }
+
+  isValidName(name) {
+    return name.length < 22
+  }
+
 }
 
 export default IntroView;

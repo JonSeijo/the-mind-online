@@ -152,6 +152,17 @@ class MindControlTest(unittest.TestCase):
 		mind.terminar_juego('Kanto')
 		self.assertTrue(mind.estado_juego('Kanto')['terminado'])
 
+	def test_no_puedo_crear_lobby_nombre_largo(self) -> None:
+		mind = MindControl()
+		self.assertRaises(InvalidNameException,
+			mind.agregar_jugador, 'Articuno', 'EsteEsUnNombreMuyLargo')
+
+	def test_no_puedo_crear_jugador_nombre_largo(self) -> None:
+		mind = MindControl()
+		self.assertRaises(InvalidNameException,
+			mind.agregar_jugador, 'EsteEsUnNombreMuyLargo', 'Kanto')
+
+
 
 def mind_con_un_jugador() -> MindControl:
 	mind = MindControl()
