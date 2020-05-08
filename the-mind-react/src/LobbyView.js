@@ -24,8 +24,6 @@ class LobbyView extends React.Component {
   }
 
   handleLobbyUpdate(lobby_state) {
-    console.log('Me llego la info del lobby:')
-    console.log(lobby_state)
     this.setState({
       'jugadores': lobby_state.jugadores,
       'error_lobby': lobby_state.error,
