@@ -15,7 +15,7 @@ class ManoSection extends React.Component {
   }
 
   renderCartasElems() {
-    if (!this.props.cartas) {
+    if (!this.props.cartas || this._gameOver()) {
       return []
     }
 
@@ -38,13 +38,17 @@ class ManoSection extends React.Component {
 
   renderBotonSiguienteNivel() {
     let cartasRestantesCount = this.countCartasRestantes()
-    return (!this.props.vidas || cartasRestantesCount) ? null :
+    return (this._gameOver() || cartasRestantesCount) ? null :
       buttonEmiter(this.props.socket, 'Siguiente nivel', 'subir_nivel')
   }
 
   renderBotonGameOver() {
-    return this.props.vidas ? null :
+    return !this._gameOver() ? null :
       buttonEmiter(this.props.socket, 'GAME OVER', 'juego_quiero_terminar')
+  }
+
+  _gameOver() {
+    return this.props.vidas !== null && this.props.vidas <= 0
   }
 
 }

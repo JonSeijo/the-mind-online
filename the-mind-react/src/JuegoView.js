@@ -9,7 +9,7 @@ class JuegoView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      'mesa': -1,
+      'mesa': 0,
       'vidas': 0,
       'cartas': [],
       'cant_cartas_jugadores': {},
