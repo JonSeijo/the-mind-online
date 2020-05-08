@@ -1,67 +1,86 @@
-# Server
+# The Mind Online
 
-## INSTALL:
+This is a clone of the card game The Mind. You can play it online at https://jonseijo.com/themind
 
-Para la guia asumo python3.7, podria funcionar con alguna version anterior pero no lo probe. Reemplazar 3.7 en los comandos por la version que corresponda
+You need at least 2 players in the same lobby to play.
 
-Instalar los headers de python3.7
+Note that there are some features missing, like the throwing star cards
+
+---
+
+
+The server is implemented in python3, using [pyre](https://pyre-check.org/) for type checking. The API is written with Flask and Socket.io (see https://flask-socketio.readthedocs.io/en/latest/)
+
+The frontend is written with [React](https://reactjs.org/)
+
+
+---
+
+## Server
+
+### INSTALL:
+
+I assume python3.7 for the guide, it probably works in previous versions but I didn't test it. Replace 3.7 in the commands for the version you use.
+
+Install python3.7 headers:
 ```sudo apt-get install python3.7-dev```
 
-Instalar venv para py3.7
+Install venv for python3.7:
 ```sudo apt-get install python3.7-venv```
 
-Pararse en the-mind-online
+Step into the-mind-online:
 ```cd the-mind-online```
 
-Creamos un entorno virtual donde vamos a instalar las librerias de python:
+Create a virtual enviroment to install required python libraries:
 ```python3.7 -m venv the-mind-venv```
 
-Activamos el entorno virutal:
+Activate the virtual enviroment:
 ```source the-mind-venv/bin/activate```
 
-Para saber si esta andando, deberia aparecer "(the-mind-venv)" a la izquierda del prompt.
+You should see "(the-mind-venv)" in the command prompt
 
-Nos movemos a the-mind e instalamos las librerias necesarias (importante, el venv tiene que estar activado!)
+Go to 'the-mind' directory and install the requirements. Important, the virtual enviroment MUST be activated!
+
 ```pip install -r requirements.txt```
 
 
 ## RUN
 
-Cada vez que querramos usar el server tenemos que activar el entorno virtual
+You should activate the virtual enviroment every time you want to run the server:
+
 ```source the-mind-venv/bin/activate```
 
-
-Correr los tests:
+Run tests:
 ```./test.sh```
 
-Correr el type checking:
+Run tests with type checking (pyre is needed):
 ```./test.sh all```
 
-Arrancar el server:
+Start the server:
 ```./serve.sh```
 
-El _server_ arranca en localhost:5000, se puede acceder desde el navegador
+The server runs by default on localhost:5000
 
 
 -----------------------------
 
-# Cliente
+## Client
 
-## INSTALL
+### INSTALL
 
-- Instalar yarn
-( https://classic.yarnpkg.com/en/docs/install/#debian-stable )
+I used yarn but it can probably be replaced with just npm.
 
-Es posible que necesites instalar "nodejs", no estoy seguro si se instala solo con yarn.
+Install [yarn](https://classic.yarnpkg.com/en/docs/install/#debian-stable)
 
-Parados en "the-mind-react", queremos instalar las dependencias especificadas en el package.json:
+(you also need ```nodejs``` if is not installed automatically)
 
-``` yarn install```
+In ```the-mind-react``` directory, install the dependencies specified in package.json: ``` yarn install```
 
 
-## RUN
+### RUN
 
-Parados en "the-mind-react":
+In ```the-mind-react```:
+
 ``` yarn start```
 
-Ahora podemos acceder al cliente desde localhost:3000
+You can access the client from localhost:3000
